@@ -7,14 +7,14 @@
 
 | Nome | Papel na Aula 01 |
 |---|---|
-| _(nome do integrante 1)_ | Responsável do dia |
-| _(nome do integrante 2)_ | |
-| _(nome do integrante 3)_ | |
-| _(nome do integrante 4)_ | |
+| _(Marcos Vinicius)_ | Responsável do dia |
+| _(Mikael Levi)_ | |
+| _(Gabriel)_ | |
+
 
 ## Descrição do desafio
 
-_(Resuma aqui, com suas palavras, o desafio: uma equipe de desenvolvimento recebeu a demanda de
+_(Uma equipe de desenvolvimento recebeu a demanda de
 construir um sistema de gestão de pedidos para um e-commerce, contemplando cadastro de produtos,
 clientes, pedidos e processamento de pagamentos.)_
 
