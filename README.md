@@ -7,10 +7,47 @@
 
 | Nome | Papel na Aula 01 |
 |---|---|
-| _(Marcos Vinicius)_ | Responsável do dia |
-| _(Mikael Levi)_ | |
-| _(Gabriel)_ | |
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
 
+DIA 01 — 07/08/26
+
+Introdução ao GitHub e organização inicial do projeto. Criação do repositório e configuração da branch main. Configuração de regras de proteção da branch main. Estruturação inicial do projeto e realização do primeiro commit.
+
+---------------------------------//----------------------------------
+
+DIA 02 — 14/08/26
+
+| Nome | Papel na Aula 02 |
+|---|---|
+| *(Marcos Vinicius)* | Responsável do dia |
+| *(Mikael Levi)* | |
+
+DIA 02 — 14/08/26
+
+Introdução ao fluxo de trabalho com branches no Git. Criação e gerenciamento de branches para desenvolvimento. Aprendizado e aplicação do fluxo de Pull Requests. Criação do primeiro Pull Request e revisão das alterações junto ao professor.
+
+---------------------------------//----------------------------------
+
+DIA 03 — 21/08/26
+
+| Nome | Papel na Aula 03 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+DIA 03 — 21/08/26
+
+Revisão de conceitos básicos da linguagem Java, incluindo bibliotecas, métodos e o uso de `.equals()`. Introdução à criação e organização de classes no projeto. Desenvolvimento da classe Pedido em Java. Implementação dos métodos relacionados à classe Pedido.
+
+---------------------------------//----------------------------------
+
+DIA 04 — /08/26
+
+| Nome | Papel na Aula 04 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | |
 
 ## Descrição do desafio
 
@@ -64,8 +101,8 @@ _(Preencher a partir das próximas aulas, conforme o projeto evoluir.)_
 
 | Aula | Entrega |
 |---|---|
-| 01 | Repositório criado, estruturado, com README e commit inicial |
-| 02 | Fluxo de branches e primeiro Pull Request revisado |
+| 01 | Repositório criado, estruturado, com README e commit inicial | **OK**
+| 02 | Fluxo de branches e primeiro Pull Request revisado |**OK**
 | 03 | Classe utilitária (Utils) do domínio |
 | 04 | Classes de domínio inicial (Produto, Cliente, Pedido, ItemPedido) |
 | 05 | Encapsulamento e abstração aplicados |
@@ -83,9 +120,9 @@ _(Preencher a partir das próximas aulas, conforme o projeto evoluir.)_
 
 ## Combinado da equipe (ética e convivência)
 
-1. _(regra 1 definida pela equipe)_
-2. _(regra 2 definida pela equipe)_
-3. _(regra 3 definida pela equipe)_
+-Manter uma comunicação clara e respeitosa entre os integrantes da equipe.
+-Criar branches e Pull Requests para organizar e revisar as alterações antes de integrá-las à main.
+-Cumprir as tarefas definidas para cada aula e comunicar a equipe sobre eventuais dificuldades ou atrasos.
 
 ## Licença
 
