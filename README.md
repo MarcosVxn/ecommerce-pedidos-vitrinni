@@ -27,7 +27,7 @@ DIA 02 — 14/08/26
 
 Introdução ao fluxo de trabalho com branches no Git. Criação e gerenciamento de branches para desenvolvimento. Aprendizado e aplicação do fluxo de Pull Requests. Criação do primeiro Pull Request e revisão das alterações junto ao professor.
 
----------------------------------//----------------------------------
+---------------------------------//-----------------------------------
 
 DIA 03 — 21/08/26
 
