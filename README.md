@@ -33,8 +33,8 @@ DIA 03 — 21/08/26
 
 | Nome | Papel na Aula 03 |
 |---|---|
-| *(Marcos Vinicius)* | |
-| *(Mikael Levi)* | Responsável do dia |
+| *(Marcos Vinicius)* | Responsável do dia |
+| *(Mikael Levi)* | |
 
 DIA 03 — 21/08/26
 
