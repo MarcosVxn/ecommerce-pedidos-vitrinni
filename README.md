@@ -51,6 +51,22 @@ DIA 04 — /08/26
 
 ## Descrição do desafio
 
+---------------------------------//----------------------------------
+
+DIA 05 — 04/09/26
+
+| Nome | Papel na Aula 05 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Criação das classes Cliente e Pessoa. 
+Foi ensinado sobre encapsulamento e herança.
+
+
+---------------------------------//----------------------------------
+
+
 _(Uma equipe de desenvolvimento recebeu a demanda de
 construir um sistema de gestão de pedidos para um e-commerce, contemplando cadastro de produtos,
 clientes, pedidos e processamento de pagamentos.)_
