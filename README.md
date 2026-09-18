@@ -42,14 +42,14 @@ Revisão de conceitos básicos da linguagem Java, incluindo bibliotecas, método
 
 ---------------------------------//----------------------------------
 
-DIA 04 — /08/26
+DIA 04 — 28/08/26
 
 | Nome | Papel na Aula 04 |
 |---|---|
 | *(Marcos Vinicius)* | |
-| *(Mikael Levi)* | |
+| *(Mikael Levi)* | Responsável do dia |
 
-## Descrição do desafio
+Criação das classes Produto, Cliente, ItemPedido e Pedido, aplicando conceitos de POO, encapsulamento, construtores e métodos para representar o sistema de pedidos.
 
 ---------------------------------//----------------------------------
 
@@ -60,11 +60,35 @@ DIA 05 — 04/09/26
 | *(Marcos Vinicius)* | |
 | *(Mikael Levi)* | Responsável do dia |
 
-Criação das classes Cliente e Pessoa. 
-Foi ensinado sobre encapsulamento e herança.
+Criação das classes Cliente e Pessoa, aplicando conceitos de encapsulamento e herança.
 
 
 ---------------------------------//----------------------------------
+
+
+DIA 06 — 11/09/26
+
+| Nome | Papel na Aula 06 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Hierarquia de pagamentos abstrata (FormaPagamento), filhas concretas (CartaoCredito, Boleto, Pix), complemento de Pessoa (Funcionario), polimorfismo, diagrama draw.io e justificativas de recusa de herança.
+
+---------------------------------//----------------------------------
+
+DIA 07 — 18/09/26
+
+| Nome | Papel na Aula 07 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Implementação dos relacionamentos entre as classes do sistema, utilizando associação, agregação e composição, além das multiplicidades e validações necessárias para garantir o funcionamento correto dos pedidos.
+
+
+---------------------------------//----------------------------------
+
 
 
 _(Uma equipe de desenvolvimento recebeu a demanda de
