@@ -25,5 +25,13 @@ public abstract class Pessoa {
         }
     }
 
+    public String getNome(){
+        return nome;
+    }
+
+    public String getDocumento(){
+        return documento;
+    }
+
     public abstract String getIdentificacao();
 }
