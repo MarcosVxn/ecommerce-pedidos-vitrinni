@@ -58,7 +58,7 @@ public class Pedido {
           throw new IllegalArgumentException("Pedido sem itens");  
         }
         itens.add(new ItemPedido(produto, quantidade, produto.getPreco()));
-        System.out.println("Pedido Criado");
+        System.out.println("Pedido Criado com sucesso");
     }
 
 }
