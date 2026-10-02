@@ -61,4 +61,15 @@ public class Pedido {
         System.out.println("Pedido Criado com sucesso");
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+            "Pedido{numero=%d, cliente=%s, data=%d, situacao='%s', itens=%s}",
+            numero,
+            cliente,
+            data,
+            situacao,
+            itens
+    );
+}
 }

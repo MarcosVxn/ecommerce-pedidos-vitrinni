@@ -64,9 +64,16 @@ public class Cliente extends Pessoa {
     public String getEmail() {
         return this.email;
     }
-
+    
     @Override
-    public String getIdentificacao() {
-        return getNome() + "(CPF " + getDocumento() + ")";
-    }
+    public String toString() {
+        return String.format(
+            "Cliente{nome='%s', documento='%s', email='%s', telefone='%s', endereco='%s'}",
+            getNome(),
+            getDocumento(),
+            email,
+            telefone,
+            endereco
+        );
+}
 }

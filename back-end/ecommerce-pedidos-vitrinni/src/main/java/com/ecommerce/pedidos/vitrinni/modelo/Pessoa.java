@@ -40,5 +40,5 @@ public abstract class Pessoa {
         return this.documento;
     }
 
-    public abstract String getIdentificacao();
+    
 }
