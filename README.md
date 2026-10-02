@@ -23,7 +23,6 @@ DIA 02 — 14/08/26
 | *(Marcos Vinicius)* | Responsável do dia |
 | *(Mikael Levi)* | |
 
-DIA 02 — 14/08/26
 
 Introdução ao fluxo de trabalho com branches no Git. Criação e gerenciamento de branches para desenvolvimento. Aprendizado e aplicação do fluxo de Pull Requests. Criação do primeiro Pull Request e revisão das alterações junto ao professor.
 
@@ -36,7 +35,6 @@ DIA 03 — 21/08/26
 | *(Marcos Vinicius)* | Responsável do dia |
 | *(Mikael Levi)* | |
 
-DIA 03 — 21/08/26
 
 Revisão de conceitos básicos da linguagem Java, incluindo bibliotecas, métodos e o uso de `.equals()`. Introdução à criação e organização de classes no projeto. Desenvolvimento da classe Pedido em Java. Implementação dos métodos relacionados à classe Pedido.
 
@@ -88,6 +86,31 @@ Implementação dos relacionamentos entre as classes do sistema, utilizando asso
 
 
 ---------------------------------//----------------------------------
+
+DIA 08 — 25/09/26
+
+| Nome | Papel na Aula 08 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+
+Desenvolvimento do módulo de pagamento polimórfico, com criação da interface ProcessadorPagamento e implementação dos métodos de processamento, comprovante e descrição nas classes Pix, Boleto e CartaoCredito. Integração das formas de pagamento com a classe Pedido, aplicação de sobrecarga de métodos e utilização do polimorfismo para permitir a inclusão de novas formas de pagamento sem alterar o código existente.
+
+---------------------------------//----------------------------------
+
+DIA 09 — 02/10/26
+
+| Nome | Papel na Aula 09 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+
+Implementação do tratamento de exceções no sistema, com criação de exceções personalizadas para situações como estoque insuficiente e pagamento recusado. Aplicação de validações nos cadastros, pedidos e pagamentos, definição de critérios para exceções checked e unchecked e tratamento de erros nas camadas adequadas, garantindo mensagens claras para o usuário e maior confiabilidade do sistema.
+
+---------------------------------//----------------------------------
+
 
 
 
@@ -163,6 +186,14 @@ _(Preencher a partir das próximas aulas, conforme o projeto evoluir.)_
 -Manter uma comunicação clara e respeitosa entre os integrantes da equipe.
 -Criar branches e Pull Requests para organizar e revisar as alterações antes de integrá-las à main.
 -Cumprir as tarefas definidas para cada aula e comunicar a equipe sobre eventuais dificuldades ou atrasos.
+## Decisão da equipe
+
+A equipe decidiu utilizar o **GitHub Wiki** como uma forma de facilitar o entendimento e a consulta do projeto. A Wiki será utilizada para reunir informações importantes sobre o funcionamento do sistema, organização do código, decisões tomadas durante o desenvolvimento e outras informações que possam ajudar novos integrantes ou pessoas que queiram conhecer o projeto de maneira mais simples.
+
+Também optamos pela utilização do **GitHub Projects** para melhorar a organização das atividades da equipe. Através dele, será possível dividir as tarefas em Issues e Tasks, definir responsáveis e acompanhar o andamento do desenvolvimento de forma mais organizada.
+
+Essa organização será importante tanto para o desenvolvimento atual do **back-end** quanto para a futura implementação do **front-end**, permitindo que as duas partes do projeto possam evoluir de forma mais organizada e que cada integrante consiga visualizar suas responsabilidades e o progresso do projeto.
+
 
 ## Licença
 
