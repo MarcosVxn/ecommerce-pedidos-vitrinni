@@ -18,13 +18,34 @@ public class Produto {
 
     public Produto(String codigo, String nome, String descricao, 
         double preco,int quantidadeEmEstoque){
-            this.codigo = codigo;
-            this.nome = nome;
-            this.descricao = descricao;
-            this.preco = preco;
-            this.quantidadeEmEstoque = quantidadeEmEstoque;
-            this.ativo = true;
+            setCodigo(codigo);
+            setNome(nome);
+            setDescricao(descricao);
+            setPreco(preco);
+            setQuantidade(quantidadeEmEstoque);
+            setAtivo(ativo);
         }
+
+
+    public void setAtivo(boolean ativo){
+        this.ativo = true;
+    }
+
+    public void setPreco(double preco){
+        this.preco = preco;
+    }
+
+    public void setDescricao(String descricao){
+        descricao = this.descricao;
+    }
+
+    public void setNome(String nome){
+        nome = this.nome;
+    }
+
+    public void setCodigo(String codigo){
+        codigo = this.codigo;
+    }
 
     public String getNome(){
         return this.nome;
