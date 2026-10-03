@@ -10,11 +10,6 @@ public class Produto {
     private int quantidadeEmEstoque;
     private boolean ativo;
 
-    // Contrutor
-    public Produto(){
-
-        
-    }
 
     public Produto(String codigo, String nome, String descricao, 
         double preco,int quantidadeEmEstoque){
@@ -36,15 +31,15 @@ public class Produto {
     }
 
     public void setDescricao(String descricao){
-        descricao = this.descricao;
+        this.descricao = descricao;
     }
 
     public void setNome(String nome){
-        nome = this.nome;
+        this.nome = nome;
     }
 
     public void setCodigo(String codigo){
-        codigo = this.codigo;
+        this.codigo = codigo;
     }
 
     public String getNome(){
