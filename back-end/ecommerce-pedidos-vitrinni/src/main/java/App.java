@@ -1,5 +1,7 @@
 
 
+import java.math.BigDecimal;
+
 import com.ecommerce.pedidos.vitrinni.modelo.*;
 
 public class App {
@@ -10,7 +12,7 @@ public class App {
             "001",
             "Notebook",
             "Notebook para estudos",
-            3500.00,
+            new BigDecimal("3500.00"),
             10
         );
 

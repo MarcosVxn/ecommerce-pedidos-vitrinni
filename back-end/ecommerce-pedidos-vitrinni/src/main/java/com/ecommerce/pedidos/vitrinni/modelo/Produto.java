@@ -1,18 +1,20 @@
 package com.ecommerce.pedidos.vitrinni.modelo;
 
+import java.math.BigDecimal;
+
 public class Produto {
     
     // Atributos
     private String codigo;
     private String nome;
     private String descricao;
-    private double preco;
+    private BigDecimal preco;
     private int quantidadeEmEstoque;
     private boolean ativo;
 
 
     public Produto(String codigo, String nome, String descricao, 
-        double preco,int quantidadeEmEstoque){
+        BigDecimal preco,int quantidadeEmEstoque){
             setCodigo(codigo);
             setNome(nome);
             setDescricao(descricao);
@@ -26,9 +28,6 @@ public class Produto {
         this.ativo = true;
     }
 
-    public void setPreco(double preco){
-        this.preco = preco;
-    }
 
     public void setDescricao(String descricao){
         this.descricao = descricao;
@@ -50,14 +49,15 @@ public class Produto {
         return this.ativo;
     }
 
-    public double getPreco(){
+    public BigDecimal getPreco(){
         return this.preco;
     }
 
-    public void setPreco(){
-        if (preco <= 0) {
+    public void setPreco(BigDecimal preco){
+        if (preco.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("preço não pode ser negativo");
         }
+        this.preco = preco;
     }
 
     public void setQuantidade(int quantidadeEmEstoque){
@@ -73,7 +73,7 @@ public class Produto {
 
     @Override
     public String toString(){
-        return String.format("[%-10s] %-15s R$ %9.2f (%6d em estoque)", codigo, nome, preco, quantidadeEmEstoque);
+        return String.format("[%-10s] %-15s R$ %9s (%6d em estoque)", codigo, nome, preco, quantidadeEmEstoque);
     }
 
     public void baixarEstoque(int quantidade){

@@ -2,8 +2,6 @@ package com.ecommerce.pedidos.vitrinni.modelo;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Pedido {
