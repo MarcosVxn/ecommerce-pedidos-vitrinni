@@ -2,6 +2,8 @@ package com.ecommerce.pedidos.vitrinni.modelo;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Pedido {
@@ -45,7 +47,7 @@ public class Pedido {
     }
 
     public List<ItemPedido> getItens() {
-        return itens;
+       return  List.copyOf(itens);
     }
 
 
