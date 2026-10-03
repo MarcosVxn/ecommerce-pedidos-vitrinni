@@ -9,7 +9,7 @@ public class Pedido {
     private int numero;
     private Cliente cliente;
     private int data;
-    private String situacao;
+    private SituacaoPedido situacao;
     private final List<ItemPedido> itens = new ArrayList<>();
 
     public void setNumero(int numero) {
@@ -36,11 +36,11 @@ public class Pedido {
         return data;
     }
 
-    public void setSituacao(String situacao) {
+    public void setSituacao(SituacaoPedido situacao) {
         this.situacao = situacao;
     }
 
-    public String getSituacao() {
+    public SituacaoPedido getSituacao() {
         return situacao;
     }
 
@@ -54,11 +54,8 @@ public class Pedido {
     }
 
     public void adicionarItem(Produto produto, int quantidade){
-        if (itens.isEmpty()) {
-          throw new IllegalArgumentException("Pedido sem itens");  
-        }
         itens.add(new ItemPedido(produto, quantidade, produto.getPreco()));
-        System.out.println("Pedido Criado com sucesso");
+        System.out.println("Item adicionado com sucesso");
     }
 
     @Override
