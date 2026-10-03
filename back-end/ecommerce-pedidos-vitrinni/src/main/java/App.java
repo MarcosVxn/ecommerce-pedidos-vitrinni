@@ -90,7 +90,7 @@ public class App {
         pedido.setNumero(1);
         pedido.setCliente(cliente);
         pedido.setData(20261002);
-        pedido.setSituacao("ABERTO");
+        pedido.setSituacao(SituacaoPedido.ABERTO);
 
         System.out.println("\n--- Objetos criados ---");
         System.out.println("Produto: " + produto);
