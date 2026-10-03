@@ -11,14 +11,16 @@ public abstract class Pessoa {
     }
 
     public void setNome(String nome){
-        if (nome == null || nome.isBlank()) {
-            throw new IllegalArgumentException("Nome é Obrigatório");
-        }
-
+        validarNome(nome);
         this.nome = nome.trim();
     }
 
     public void setDocumento(String documento) {
+        validarDocumento(documento);
+        this.documento = documento.trim();
+    }
+
+    private void validarDocumento(String documento){
         if (documento == null || documento.isBlank()) {
             throw new IllegalArgumentException("Documento inválido!");
         }
@@ -28,8 +30,12 @@ public abstract class Pessoa {
                 "Documento deve conter apenas números!"
             );
         }
+    }
 
-        this.documento = documento.trim();
+    private void validarNome(String nome){
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome é Obrigatório");
+        }
     }
 
     public String getNome(){
