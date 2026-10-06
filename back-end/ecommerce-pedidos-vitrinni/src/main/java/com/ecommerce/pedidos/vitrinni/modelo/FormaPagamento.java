@@ -3,7 +3,7 @@ package com.ecommerce.pedidos.vitrinni.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public sealed abstract class FormaPagamento permits CartaoCredito {
+public sealed abstract class FormaPagamento permits CartaoCredito , Boleto {
 
     private BigDecimal valorPagamento;
     private LocalDate dataDoPagamento;

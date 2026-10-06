@@ -30,10 +30,6 @@ public non-sealed class CartaoCredito extends FormaPagamento {
     }
 
     private void validarNumeroMascarado(String numeroMascarado){
-
-
-
-
         if (!numeroMascarado.matches("\\d{16}")) {
             throw new IllegalArgumentException("Número do cartão deve conter 16 dígitos");
         }
