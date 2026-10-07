@@ -1,6 +1,6 @@
 package com.ecommerce.pedidos.vitrinni.modelo;
 
-public abstract class Pessoa {
+public sealed abstract class Pessoa permits Cliente , Funcionario {
 
     private String nome;
     private String documento;
@@ -56,5 +56,7 @@ public abstract class Pessoa {
     public String getDocumento() {
         return this.documento;
     }
+
+    public abstract String getIdentificacao();
 
 }
