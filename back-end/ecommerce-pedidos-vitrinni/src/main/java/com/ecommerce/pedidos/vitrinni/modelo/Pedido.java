@@ -9,6 +9,7 @@ public class Pedido {
     private int numero;
     private Cliente cliente;
     private int data;
+    private FormaPagamento formaPagamento;
     private SituacaoPedido situacao;
     private final List<ItemPedido> itens = new ArrayList<>();
 
@@ -74,6 +75,27 @@ public class Pedido {
 
     public List<ItemPedido> getItens() {
        return  List.copyOf(itens);
+    }
+
+    private void validarFormaPagamento(FormaPagamento formaPagamento){
+        if (formaPagamento == null){
+            throw new IllegalArgumentException("Forma de pagamento invalida");
+        }
+    }
+
+    private void setFormaPagamento(FormaPagamento formaPagamento) {
+        validarFormaPagamento(formaPagamento);
+        this.formaPagamento = formaPagamento;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void realizarPagamento(FormaPagamento formaPagamento){
+        validarFormaPagamento(formaPagamento);
+        formaPagamento.processar();
+        setFormaPagamento(formaPagamento);
     }
 
 
