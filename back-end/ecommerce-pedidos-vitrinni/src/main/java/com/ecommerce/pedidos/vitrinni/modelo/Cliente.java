@@ -1,6 +1,6 @@
 package com.ecommerce.pedidos.vitrinni.modelo;
 
-public class Cliente extends Pessoa {
+public non-sealed class Cliente extends Pessoa {
 
     private String email;
     private String telefone;
@@ -95,6 +95,11 @@ public class Cliente extends Pessoa {
 
     public String getEmail() {
         return this.email;
+    }
+
+    @Override
+    public String getIdentificacao() {
+        return getDocumento();
     }
 
     @Override
