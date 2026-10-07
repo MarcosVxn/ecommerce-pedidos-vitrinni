@@ -1,6 +1,7 @@
 package com.ecommerce.pedidos.vitrinni.modelo;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,6 +108,14 @@ public class Pedido {
         setFormaPagamento(formaPagamento);
     }
 
+    public BigDecimal calcularValorTotal(){
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        for (ItemPedido item : itens) {
+            valorTotal = valorTotal.add(item.calcularValorTotal());
+        }
+
+        return valorTotal;
+    }
 
     public void removeItem(ItemPedido item){
         itens.remove(item);

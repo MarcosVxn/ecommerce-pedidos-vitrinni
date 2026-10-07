@@ -58,4 +58,8 @@ public class ItemPedido {
         validarPreco(preco);
         this.preco = preco;
     }
+
+    public BigDecimal calcularValorTotal(){
+        return preco.multiply(BigDecimal.valueOf(quantidade));
+    }
 }
