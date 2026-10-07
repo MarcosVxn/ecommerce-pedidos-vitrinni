@@ -12,6 +12,13 @@ public class Pedido {
     private SituacaoPedido situacao;
     private final List<ItemPedido> itens = new ArrayList<>();
 
+    public Pedido(int numero, Cliente cliente, int data, SituacaoPedido situacao) {
+        setNumero(numero);
+        setSituacao(situacao);
+        setData(data);
+        setCliente(cliente);
+    }
+
     private void validarNumero(int numero) {
         if (numero <= 0) {
             throw new IllegalArgumentException("Número do pedido inválido");
