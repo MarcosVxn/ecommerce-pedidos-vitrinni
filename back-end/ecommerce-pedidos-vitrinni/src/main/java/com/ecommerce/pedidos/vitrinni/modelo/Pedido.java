@@ -1,6 +1,7 @@
 package com.ecommerce.pedidos.vitrinni.modelo;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,10 +10,25 @@ public class Pedido {
     private int numero;
     private Cliente cliente;
     private int data;
+    private FormaPagamento formaPagamento;
     private SituacaoPedido situacao;
     private final List<ItemPedido> itens = new ArrayList<>();
 
+    public Pedido(int numero, Cliente cliente, int data, SituacaoPedido situacao) {
+        setNumero(numero);
+        setSituacao(situacao);
+        setData(data);
+        setCliente(cliente);
+    }
+
+    private void validarNumero(int numero) {
+        if (numero <= 0) {
+            throw new IllegalArgumentException("Número do pedido inválido");
+        }
+    }
+
     public void setNumero(int numero) {
+        validarNumero(numero);
         this.numero = numero;
     }
 
@@ -20,7 +36,14 @@ public class Pedido {
         return numero;
     }
 
+    private void validarCliente(Cliente cliente) {
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente é obrigatório");
+        }
+    }
+
     public void setCliente(Cliente cliente) {
+        validarCliente(cliente);
         this.cliente = cliente;
     }
 
@@ -36,7 +59,14 @@ public class Pedido {
         return data;
     }
 
+    private void validarSituacao(SituacaoPedido situacao) {
+        if (situacao == null) {
+            throw new IllegalArgumentException("Situação do pedido é obrigatória");
+        }
+    }
+
     public void setSituacao(SituacaoPedido situacao) {
+        validarSituacao(situacao);
         this.situacao = situacao;
     }
 
@@ -48,14 +78,51 @@ public class Pedido {
        return  List.copyOf(itens);
     }
 
+    private void validarFormaPagamento(FormaPagamento formaPagamento){
+        if (formaPagamento == null){
+            throw new IllegalArgumentException("Forma de pagamento invalida");
+        }
+    }
 
-    public void removeItens(ItemPedido item){
+    private void setFormaPagamento(FormaPagamento formaPagamento) {
+        validarFormaPagamento(formaPagamento);
+        this.formaPagamento = formaPagamento;
+    }
+
+
+    private void validarItens(){
+        if (itens.isEmpty()){
+            throw new IllegalArgumentException("O pedido deve possuir pelo menos um item");
+        }
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void realizarPagamento(FormaPagamento formaPagamento){
+        validarFormaPagamento(formaPagamento);
+        validarItens();
+
+        formaPagamento.processar();
+        setFormaPagamento(formaPagamento);
+    }
+
+    public BigDecimal calcularValorTotal(){
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        for (ItemPedido item : itens) {
+            valorTotal = valorTotal.add(item.calcularValorTotal());
+        }
+
+        return valorTotal;
+    }
+
+    public void removeItem(ItemPedido item){
         itens.remove(item);
     }
 
-    public void adicionarItem(Produto produto, int quantidade){
+    public void addItem(Produto produto, int quantidade){
         itens.add(new ItemPedido(produto, quantidade, produto.getPreco()));
-        System.out.println("Item adicionado com sucesso");
     }
 
     @Override

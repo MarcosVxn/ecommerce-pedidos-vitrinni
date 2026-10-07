@@ -1,0 +1,4 @@
+App.class
+com\ecommerce\pedidos\vitrinni\modelo\SituacaoPagamento.class
+com\ecommerce\pedidos\vitrinni\modelo\ItemPedido.class
+com\ecommerce\pedidos\vitrinni\modelo\Pedido.class
