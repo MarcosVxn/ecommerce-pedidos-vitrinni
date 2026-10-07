@@ -111,6 +111,16 @@ Implementação do tratamento de exceções no sistema, com criação de exceç�
 
 ---------------------------------//----------------------------------
 
+DIA 10 — 06/10/26
+
+| Nome | Papel na Aula 10 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Implementação da suíte de testes unitários do sistema utilizando JUnit 5. Criação de testes para as classes de domínio, contemplando cenários de sucesso e falha, incluindo as exceções definidas na Aula 09. Utilização de @BeforeEach, @DisplayName e assertThrows, com o objetivo de garantir o funcionamento das regras de negócio e atingir a cobertura mínima de 70% das classes de domínio.
+
+---------------------------------//----------------------------------
 
 
 
