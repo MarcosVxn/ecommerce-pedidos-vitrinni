@@ -88,12 +88,21 @@ public class Pedido {
         this.formaPagamento = formaPagamento;
     }
 
+
+    private void validarItens(){
+        if (itens.isEmpty()){
+            throw new IllegalArgumentException("O pedido deve possuir pelo menos um item");
+        }
+    }
+
     public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
     public void realizarPagamento(FormaPagamento formaPagamento){
         validarFormaPagamento(formaPagamento);
+        validarItens();
+
         formaPagamento.processar();
         setFormaPagamento(formaPagamento);
     }
