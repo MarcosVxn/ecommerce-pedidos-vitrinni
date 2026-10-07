@@ -60,5 +60,11 @@ public non-sealed class Boleto extends FormaPagamento{
         System.out.println("Pagamento com boleto processado.");
     }
 
+    @Override
+    public String getResumo() {
+        return super.getResumo()
+                + " | Código de barras: " + codigoDeBarras
+                + " | Vencimento: " + dataDeVencimento;
+    }
 
 }

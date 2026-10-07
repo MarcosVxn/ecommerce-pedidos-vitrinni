@@ -57,4 +57,10 @@ public non-sealed class CartaoCredito extends FormaPagamento {
         System.out.println("Pagamento com cartão de crédito processado.");
     }
 
+    @Override
+    public String getResumo() {
+        return super.getResumo()
+                + " | Bandeira: " + bandeira
+                + " | Parcelas: " + quantidadeParcelas;
+    }
 }

@@ -74,4 +74,10 @@ public non-sealed class Pix extends FormaPagamento {
     public void processar() {
         System.out.println("Pagamento com Pix processado.");
     }
+    @Override
+    public String getResumo() {
+        return super.getResumo()
+                + " | Chave Pix: " + chavePix
+                + " | Tipo: " + tipoChavePix;
+    }
 }
