@@ -5,7 +5,7 @@ public sealed abstract class Pessoa permits Cliente , Funcionario {
     private String nome;
     private String documento;
 
-    public Pessoa(String nome, String documento) {
+    protected Pessoa(String nome, String documento) {
         setNome(nome);
         setDocumento(documento);
     }
