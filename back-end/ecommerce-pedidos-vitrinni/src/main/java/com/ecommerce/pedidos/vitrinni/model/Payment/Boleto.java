@@ -1,9 +1,9 @@
-package com.ecommerce.pedidos.vitrinni.modelo;
+package com.ecommerce.pedidos.vitrinni.model.Payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public non-sealed class Boleto extends FormaPagamento{
+public non-sealed class Boleto extends FormaPagamento {
 
     private String codigoDeBarras;
     private LocalDate dataDeVencimento;

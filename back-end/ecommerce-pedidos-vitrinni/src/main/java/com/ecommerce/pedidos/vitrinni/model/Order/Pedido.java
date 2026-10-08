@@ -1,5 +1,9 @@
-package com.ecommerce.pedidos.vitrinni.modelo;
+package com.ecommerce.pedidos.vitrinni.model.Order;
 
+
+import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
+import com.ecommerce.pedidos.vitrinni.model.Payment.FormaPagamento;
+import com.ecommerce.pedidos.vitrinni.model.Product.Produto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

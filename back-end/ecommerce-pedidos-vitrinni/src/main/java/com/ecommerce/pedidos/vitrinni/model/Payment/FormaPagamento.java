@@ -1,9 +1,9 @@
-package com.ecommerce.pedidos.vitrinni.modelo;
+package com.ecommerce.pedidos.vitrinni.model.Payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public sealed abstract class FormaPagamento permits CartaoCredito , Boleto , Pix {
+public sealed abstract class FormaPagamento permits CartaoCredito, Boleto, Pix {
 
     private BigDecimal valorPagamento;
     private LocalDate dataDoPagamento;

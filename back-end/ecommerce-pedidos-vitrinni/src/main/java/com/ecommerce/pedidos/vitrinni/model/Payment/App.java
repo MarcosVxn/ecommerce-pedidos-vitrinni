@@ -1,4 +1,11 @@
-package com.ecommerce.pedidos.vitrinni.modelo;
+package com.ecommerce.pedidos.vitrinni.model.Payment;
+
+import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
+import com.ecommerce.pedidos.vitrinni.model.Client.Endereco;
+import com.ecommerce.pedidos.vitrinni.model.Order.ItemPedido;
+import com.ecommerce.pedidos.vitrinni.model.Order.Pedido;
+import com.ecommerce.pedidos.vitrinni.model.Product.Produto;
+import com.ecommerce.pedidos.vitrinni.model.Order.SituacaoPedido;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

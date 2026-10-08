@@ -1,4 +1,4 @@
-package com.ecommerce.pedidos.vitrinni.modelo;
+package com.ecommerce.pedidos.vitrinni.model.Client;
 
 public non-sealed class Cliente extends Pessoa {
 

@@ -1,6 +1,8 @@
-package com.ecommerce.pedidos.vitrinni.modelo;
+package com.ecommerce.pedidos.vitrinni.model.Client;
 
-public sealed abstract class Pessoa permits Cliente , Funcionario {
+import com.ecommerce.pedidos.vitrinni.model.Employee.Funcionario;
+
+public sealed abstract class Pessoa permits Cliente, Funcionario {
 
     private String nome;
     private String documento;
