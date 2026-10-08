@@ -15,4 +15,5 @@ com\ecommerce\pedidos\vitrinni\modelo\CartaoCredito.class
 com\ecommerce\pedidos\vitrinni\modelo\Funcionario.class
 com\ecommerce\pedidos\vitrinni\modelo\SituacaoPedido.class
 com\ecommerce\pedidos\vitrinni\modelo\Boleto.class
+com\ecommerce\pedidos\vitrinni\modelo\Endereco.class
 com\ecommerce\pedidos\vitrinni\modelo\Pedido.class

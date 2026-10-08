@@ -4,14 +4,14 @@ public non-sealed class Cliente extends Pessoa {
 
     private String email;
     private String telefone;
-    private String endereco;
+    private Endereco endereco;
 
     public Cliente(
             String nome,
             String cpf,
             String email,
             String telefone,
-            String endereco) {
+            Endereco endereco) {
         super(nome, cpf);
         setEmail(email);
         setTelefone(telefone);
@@ -53,11 +53,6 @@ public non-sealed class Cliente extends Pessoa {
         }
     }
 
-    private void validarEndereco(String endereco){
-        if (endereco == null || endereco.isBlank()) {
-            throw new IllegalArgumentException("Endereço inválido!");
-        }
-    }
 
     /**
      * Define o telefone do cliente.
@@ -80,12 +75,19 @@ public non-sealed class Cliente extends Pessoa {
      * @throws IllegalArgumentException se o endereço for nulo ou vazio
      */
 
-    public void setEndereco(String endereco) {
-        validarEndereco(endereco);
-        this.endereco = endereco;
+
+   private void validarEndereco(Endereco endereco){
+       if (endereco == null){
+           throw new IllegalArgumentException("Endereço é obrigatório");
+       }
+   }
+
+    public void setEndereco(Endereco endereco) {
+       validarEndereco(endereco);
+       this.endereco = endereco;
     }
 
-    public String getEndereco() {
+    public Endereco getEndereco() {
         return this.endereco;
     }
 

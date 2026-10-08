@@ -23,12 +23,21 @@ public class App {
                 10
         );
 
+        Endereco endereco = new Endereco(
+                "Rua Exemplo",
+                "123",
+                "Centro",
+                "Ibaté",
+                "SP",
+                "14815-000"
+        );
+
         Cliente cliente = new Cliente(
                 "Marcos",
                 "12345678900",
                 "marcos@email.com",
                 "16999999999",
-                "Ibaté - SP"
+                endereco
         );
 
         Pedido pedido = new Pedido(
@@ -38,6 +47,7 @@ public class App {
         );
 
         System.out.println("Produto criado: " + produto);
+        System.out.println("Endereço criado: " + endereco);
         System.out.println("Cliente criado: " + cliente);
         System.out.println("Pedido criado: " + pedido);
 
@@ -656,6 +666,191 @@ public class App {
 
 
         // =====================================================
+        // TESTES DA CLASSE ENDERECO
+        // =====================================================
+
+        System.out.println("\n========================================");
+        System.out.println("       TESTES DA CLASSE ENDERECO");
+        System.out.println("========================================");
+
+
+        // =====================================================
+        // TESTE 21 - ENDEREÇO VÁLIDO
+        // =====================================================
+
+        System.out.println("\n--- Teste 21: Endereço válido ---");
+
+        try {
+
+            Endereco enderecoTeste = new Endereco(
+                    "Rua das Flores",
+                    "100",
+                    "Centro",
+                    "São Carlos",
+                    "SP",
+                    "13560-000"
+            );
+
+            System.out.println(
+                    "OK: Endereço válido criado."
+            );
+
+            System.out.println(
+                    "Endereço: " + enderecoTeste
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "ERRO: Endereço válido foi recusado."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+        }
+
+
+        // =====================================================
+        // TESTE 22 - ENDEREÇO SEM LOGRADOURO
+        // =====================================================
+
+        System.out.println(
+                "\n--- Teste 22: Endereço sem logradouro ---"
+        );
+
+        try {
+
+            new Endereco(
+                    "",
+                    "100",
+                    "Centro",
+                    "São Carlos",
+                    "SP",
+                    "13560-000"
+            );
+
+            System.out.println(
+                    "ERRO: Endereço sem logradouro foi aceito."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "OK: Endereço sem logradouro foi recusado."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+        }
+
+
+        // =====================================================
+        // TESTE 23 - ESTADO INVÁLIDO
+        // =====================================================
+
+        System.out.println(
+                "\n--- Teste 23: Estado inválido ---"
+        );
+
+        try {
+
+            new Endereco(
+                    "Rua das Flores",
+                    "100",
+                    "Centro",
+                    "São Carlos",
+                    "Sao Paulo",
+                    "13560-000"
+            );
+
+            System.out.println(
+                    "ERRO: Estado inválido foi aceito."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "OK: Estado inválido foi recusado."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+        }
+
+
+        // =====================================================
+        // TESTE 24 - CEP INVÁLIDO
+        // =====================================================
+
+        System.out.println(
+                "\n--- Teste 24: CEP inválido ---"
+        );
+
+        try {
+
+            new Endereco(
+                    "Rua das Flores",
+                    "100",
+                    "Centro",
+                    "São Carlos",
+                    "SP",
+                    "123"
+            );
+
+            System.out.println(
+                    "ERRO: CEP inválido foi aceito."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "OK: CEP inválido foi recusado."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+        }
+
+
+        // =====================================================
+        // TESTE 25 - CLIENTE SEM ENDEREÇO
+        // =====================================================
+
+        System.out.println(
+                "\n--- Teste 25: Cliente sem endereço ---"
+        );
+
+        try {
+
+            new Cliente(
+                    "Cliente Teste",
+                    "12345678900",
+                    "teste@email.com",
+                    "16999999999",
+                    null
+            );
+
+            System.out.println(
+                    "ERRO: Cliente sem endereço foi aceito."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "OK: Cliente sem endereço foi recusado."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+        }
+
+
+        // =====================================================
         // RESULTADO FINAL
         // =====================================================
 
@@ -682,6 +877,11 @@ public class App {
         System.out.println(
                 "Situação do pedido cancelado: "
                         + pedidoCancelado.getSituacao()
+        );
+
+        System.out.println(
+                "Endereço do cliente principal: "
+                        + cliente.getEndereco()
         );
 
         System.out.println("\n=== TESTES FINALIZADOS ===");

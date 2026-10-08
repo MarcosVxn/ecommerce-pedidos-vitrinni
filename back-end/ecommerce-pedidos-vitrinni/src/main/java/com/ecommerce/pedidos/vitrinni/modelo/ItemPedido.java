@@ -62,4 +62,15 @@ public class ItemPedido {
     public BigDecimal calcularValorTotal(){
         return preco.multiply(BigDecimal.valueOf(quantidade));
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ItemPedido{produto=%s, quantidade=%d, preco=R$ %.2f, valorTotal=R$ %.2f}",
+                produto,
+                quantidade,
+                preco,
+                calcularValorTotal()
+        );
+    }
 }
