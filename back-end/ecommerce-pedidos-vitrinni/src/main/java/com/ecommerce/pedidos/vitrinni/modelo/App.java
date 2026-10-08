@@ -656,6 +656,173 @@ public class App {
 
 
         // =====================================================
+        // ISSUE #52 - INTEGRAÇÃO DAS CLASSES
+        // =====================================================
+
+        System.out.println("\n========================================");
+        System.out.println("       TESTES DA ISSUE #52");
+        System.out.println("========================================");
+
+
+        // =====================================================
+        // TESTE 21 - FLUXO COMPLETO DO PEDIDO
+        // =====================================================
+
+        System.out.println(
+                "\n--- Teste 21: Fluxo completo do pedido ---"
+        );
+
+        try {
+
+            // 1. Criar cliente
+            Cliente clienteIntegracao = new Cliente(
+                    "Cliente Integração",
+                    "98765432100",
+                    "cliente@email.com",
+                    "16988888888",
+                    "Ibaté - SP"
+            );
+
+            // 2. Criar produto
+            Produto produtoIntegracao = new Produto(
+                    "002",
+                    "Mouse",
+                    "Mouse para computador",
+                    new BigDecimal("150.00"),
+                    20
+            );
+
+            // 3. Criar pedido com o cliente
+            Pedido pedidoIntegracao = new Pedido(
+                    7,
+                    clienteIntegracao,
+                    20261007
+            );
+
+            // Verificar se o cliente foi associado ao pedido
+            if (pedidoIntegracao.getCliente() != clienteIntegracao) {
+
+                throw new IllegalStateException(
+                        "O Cliente não foi associado corretamente ao Pedido."
+                );
+            }
+
+            // 4. Adicionar produto ao pedido
+            pedidoIntegracao.addItem(
+                    produtoIntegracao,
+                    2
+            );
+
+            // 5. Verificar se o item foi adicionado
+            if (pedidoIntegracao.getItens().size() != 1) {
+
+                throw new IllegalStateException(
+                        "O Produto não foi adicionado ao Pedido."
+                );
+            }
+
+            // Recuperar o item criado
+            ItemPedido itemIntegracao =
+                    pedidoIntegracao.getItens().get(0);
+
+            // Verificar relação ItemPedido → Produto
+            if (itemIntegracao.getProduto() != produtoIntegracao) {
+
+                throw new IllegalStateException(
+                        "O ItemPedido não está relacionado ao Produto correto."
+                );
+            }
+
+            // 6. Calcular e verificar o valor total
+            BigDecimal totalEsperado =
+                    new BigDecimal("300.00");
+
+            BigDecimal totalPedido =
+                    pedidoIntegracao.calcularValorTotal();
+
+            if (!totalPedido.equals(totalEsperado)) {
+
+                throw new IllegalStateException(
+                        "Valor total incorreto. Esperado: R$ "
+                                + totalEsperado
+                                + " | Atual: R$ "
+                                + totalPedido
+                );
+            }
+
+            // 7. Criar forma de pagamento usando o total do pedido
+            FormaPagamento pagamentoIntegracao = new Pix(
+                    totalPedido,
+                    LocalDate.now(),
+                    "16988888888",
+                    TipoChavePix.TELEFONE
+            );
+
+            // 8. Realizar pagamento
+            pedidoIntegracao.realizarPagamento(
+                    pagamentoIntegracao
+            );
+
+            // 9. Verificar se o pagamento foi associado ao pedido
+            if (pedidoIntegracao.getFormaPagamento()
+                    != pagamentoIntegracao) {
+
+                throw new IllegalStateException(
+                        "A forma de pagamento não foi associada ao Pedido."
+                );
+            }
+
+            // 10. Verificar situação final do pedido
+            if (pedidoIntegracao.getSituacao()
+                    != SituacaoPedido.PAGO) {
+
+                throw new IllegalStateException(
+                        "O Pedido não foi alterado para PAGO."
+                );
+            }
+
+            // Resultado dos testes
+            System.out.println(
+                    "OK: Cliente integrado ao Pedido."
+            );
+
+            System.out.println(
+                    "OK: Produto integrado ao ItemPedido."
+            );
+
+            System.out.println(
+                    "OK: ItemPedido integrado ao Pedido."
+            );
+
+            System.out.println(
+                    "OK: Valor total calculado corretamente."
+            );
+
+            System.out.println(
+                    "OK: Forma de pagamento integrada ao Pedido."
+            );
+
+            System.out.println(
+                    "OK: Pedido alterado para PAGO."
+            );
+
+            System.out.println(
+                    "OK: Fluxo completo do pedido executado com sucesso."
+            );
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+
+            System.out.println(
+                    "ERRO: Falha na integração das classes."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+        }
+
+
+        // =====================================================
         // RESULTADO FINAL
         // =====================================================
 
