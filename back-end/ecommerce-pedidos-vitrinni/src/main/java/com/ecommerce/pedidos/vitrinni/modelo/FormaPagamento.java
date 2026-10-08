@@ -28,6 +28,7 @@ public sealed abstract class FormaPagamento permits CartaoCredito , Boleto , Pix
         }
     }
 
+
     private void validarDataPagamento(LocalDate dataDoPagamento) {
         if (dataDoPagamento == null) {
             throw new IllegalArgumentException("Data do pagamento é obrigatória");

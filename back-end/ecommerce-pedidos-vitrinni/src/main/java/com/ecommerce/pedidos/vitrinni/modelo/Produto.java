@@ -19,11 +19,11 @@ public class Produto {
         setDescricao(descricao);
         setPreco(preco);
         setQuantidade(quantidadeEmEstoque);
-        setAtivo(ativo);
+        setAtivo(true);
     }
 
     public void setAtivo(boolean ativo) {
-        this.ativo = true;
+        this.ativo = ativo;
     }
 
     public void setDescricao(String descricao) {

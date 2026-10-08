@@ -36,7 +36,14 @@ public non-sealed class CartaoCredito extends FormaPagamento {
     }
 
     public void setBandeira(BandeiraCartao bandeira){
+        validarBandeira(bandeira);
         this.bandeira = bandeira;
+    }
+
+    private void validarBandeira(BandeiraCartao bandeiraCartao){
+        if (bandeiraCartao == null){
+            throw new IllegalArgumentException("Bandeira do cartão é obrigatória");
+        }
     }
 
     public void setParcelas(int quantidadeParcelas){
