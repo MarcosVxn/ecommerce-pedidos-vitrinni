@@ -34,8 +34,7 @@ public class App {
         Pedido pedido = new Pedido(
                 1,
                 cliente,
-                20261007,
-                SituacaoPedido.ABERTO
+                20261007
         );
 
         System.out.println("Produto criado: " + produto);
@@ -52,8 +51,7 @@ public class App {
             new Pedido(
                     2,
                     null,
-                    20261007,
-                    SituacaoPedido.ABERTO
+                    20261007
             );
 
             System.out.println("ERRO: Pedido sem cliente foi aceito.");
@@ -215,12 +213,153 @@ public class App {
         }
 
         // =====================================================
+        // TESTE 10 - SITUAÇÃO INICIAL DO PEDIDO
+        // =====================================================
+
+        System.out.println("\n--- Teste: Situação inicial do pedido ---");
+
+        Pedido pedidoAberto = new Pedido(
+                2,
+                cliente,
+                20261007
+        );
+
+        if (pedidoAberto.getSituacao() == SituacaoPedido.ABERTO) {
+
+            System.out.println("OK: Pedido iniciou como ABERTO.");
+
+        } else {
+
+            System.out.println(
+                    "ERRO: Pedido iniciou com situação "
+                            + pedidoAberto.getSituacao()
+            );
+        }
+
+        // =====================================================
+        // TESTE 11 - ABERTO → PAGO
+        // =====================================================
+
+        System.out.println("\n--- Teste: ABERTO → PAGO ---");
+
+        pedidoAberto.addItem(produto, 1);
+
+        FormaPagamento pixPagamento = new Pix(
+                pedidoAberto.calcularValorTotal(),
+                LocalDate.now(),
+                "16999999999",
+                TipoChavePix.TELEFONE
+        );
+
+        try {
+
+            pedidoAberto.realizarPagamento(pixPagamento);
+
+            if (pedidoAberto.getSituacao() == SituacaoPedido.PAGO) {
+
+                System.out.println("OK: Pedido mudou de ABERTO para PAGO.");
+
+            } else {
+
+                System.out.println(
+                        "ERRO: Pedido não mudou para PAGO. Situação atual: "
+                                + pedidoAberto.getSituacao()
+                );
+            }
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("ERRO: Pagamento foi recusado.");
+            System.out.println("Mensagem: " + e.getMessage());
+        }
+
+        // =====================================================
+        // TESTE 12 - PAGO → CANCELADO
+        // =====================================================
+
+        System.out.println("\n--- Teste: PAGO → CANCELADO ---");
+
+        try {
+
+            pedidoAberto.cancelarPedido();
+
+            System.out.println(
+                    "ERRO: Pedido pago pôde ser cancelado."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "OK: Pedido pago não pôde ser cancelado."
+            );
+            System.out.println("Mensagem: " + e.getMessage());
+        }
+
+        // =====================================================
+        // TESTE 13 - CANCELADO → PAGO
+        // =====================================================
+
+        System.out.println("\n--- Teste: CANCELADO → PAGO ---");
+
+        Pedido pedidoCancelado = new Pedido(
+                3,
+                cliente,
+                20261007
+        );
+
+        pedidoCancelado.addItem(produto, 1);
+        pedidoCancelado.cancelarPedido();
+
+        System.out.println(
+                "Situação antes da tentativa de pagamento: "
+                        + pedidoCancelado.getSituacao()
+        );
+
+        FormaPagamento pixCancelado = new Pix(
+                pedidoCancelado.calcularValorTotal(),
+                LocalDate.now(),
+                "16999999999",
+                TipoChavePix.TELEFONE
+        );
+
+        try {
+
+            pedidoCancelado.realizarPagamento(pixCancelado);
+
+            System.out.println(
+                    "ERRO: Pedido cancelado pôde ser pago."
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "OK: Pedido cancelado não pôde ser pago."
+            );
+            System.out.println("Mensagem: " + e.getMessage());
+        }
+
+        // =====================================================
         // RESULTADO FINAL
         // =====================================================
 
         System.out.println("\n=== ESTADO FINAL ===");
-        System.out.println("Pedido: " + pedido);
-        System.out.println("Valor total: R$ " + pedido.calcularValorTotal());
+
+        System.out.println("Pedido principal: " + pedido);
+        System.out.println(
+                "Situação do pedido principal: "
+                        + pedido.getSituacao()
+        );
+        System.out.println(
+                "Valor total: R$ " + pedido.calcularValorTotal()
+        );
+
+        System.out.println(
+                "Pedido cancelado: " + pedidoCancelado
+        );
+        System.out.println(
+                "Situação do pedido cancelado: "
+                        + pedidoCancelado.getSituacao()
+        );
 
         System.out.println("\n=== TESTES FINALIZADOS ===");
     }

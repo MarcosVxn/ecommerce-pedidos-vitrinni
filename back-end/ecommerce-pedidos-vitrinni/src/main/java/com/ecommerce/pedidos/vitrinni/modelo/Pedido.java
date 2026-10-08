@@ -11,12 +11,11 @@ public class Pedido {
     private Cliente cliente;
     private int data;
     private FormaPagamento formaPagamento;
-    private SituacaoPedido situacao;
+    private SituacaoPedido situacao = SituacaoPedido.ABERTO;
     private final List<ItemPedido> itens = new ArrayList<>();
 
-    public Pedido(int numero, Cliente cliente, int data, SituacaoPedido situacao) {
+    public Pedido(int numero, Cliente cliente, int data) {
         setNumero(numero);
-        setSituacao(situacao);
         setData(data);
         setCliente(cliente);
     }
@@ -34,6 +33,17 @@ public class Pedido {
 
     public int getNumero() {
         return numero;
+    }
+
+    private void validarMudancaSituacao(SituacaoPedido novaSituacao){
+        if (situacao == SituacaoPedido.PAGO && novaSituacao != SituacaoPedido.PAGO){
+            throw new IllegalArgumentException("Pedido pago não pode ter sua situação alterada");
+        }
+        if (situacao == SituacaoPedido.CANCELADO && novaSituacao != SituacaoPedido.CANCELADO){
+            throw new IllegalArgumentException(
+                    "Pedido cancelado não pode ter sua situação alterada"
+            );
+        }
     }
 
     private void validarCliente(Cliente cliente) {
@@ -65,8 +75,9 @@ public class Pedido {
         }
     }
 
-    public void setSituacao(SituacaoPedido situacao) {
+    private void setSituacao(SituacaoPedido situacao) {
         validarSituacao(situacao);
+        validarMudancaSituacao(situacao);
         this.situacao = situacao;
     }
 
@@ -100,12 +111,18 @@ public class Pedido {
         return formaPagamento;
     }
 
+    public void cancelarPedido(){
+        setSituacao(SituacaoPedido.CANCELADO);
+    }
+
     public void realizarPagamento(FormaPagamento formaPagamento){
         validarFormaPagamento(formaPagamento);
         validarItens();
+        validarMudancaSituacao(SituacaoPedido.PAGO);
 
         formaPagamento.processar();
         setFormaPagamento(formaPagamento);
+        setSituacao(SituacaoPedido.PAGO);
     }
 
     public BigDecimal calcularValorTotal(){
