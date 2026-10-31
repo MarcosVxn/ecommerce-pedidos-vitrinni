@@ -407,9 +407,14 @@ public class App {
 
         System.out.println("\n--- Teste: ABERTO → PAGO ---");
 
+        boolean pedidoPreparado = false;
+        boolean pedidoFoiPago = false;
+        FormaPagamento pixPagamento = null;
+
         try {
 
             pedidoAberto.addItem(produto, 1);
+            pedidoPreparado = true;
 
         } catch (ECommerceException e) {
 
@@ -420,44 +425,53 @@ public class App {
             System.out.println("Dados inválidos no item: " + e.getMessage());
         }
 
-        FormaPagamento pixPagamento = new Pix(
-                pedidoAberto.calcularValorTotal(),
-                LocalDate.now(),
-                "16999999999",
-                TipoChavePix.TELEFONE
-        );
+        if (pedidoPreparado) {
 
-        try {
+            pixPagamento = new Pix(
+                    pedidoAberto.calcularValorTotal(),
+                    LocalDate.now(),
+                    "16999999999",
+                    TipoChavePix.TELEFONE
+            );
 
-            pedidoAberto.realizarPagamento(pixPagamento, autorizadorPagamento);
+            try {
 
-            if (pedidoAberto.getSituacao() == SituacaoPedido.PAGO) {
+                pedidoAberto.realizarPagamento(pixPagamento, autorizadorPagamento);
 
-                System.out.println(
-                        "OK: Pedido mudou de ABERTO para PAGO."
-                );
+                if (pedidoAberto.getSituacao() == SituacaoPedido.PAGO) {
 
-            } else {
+                    pedidoFoiPago = true;
 
-                System.out.println(
-                        "ERRO: Pedido não mudou para PAGO. Situação atual: "
-                                + pedidoAberto.getSituacao()
-                );
+                    System.out.println(
+                            "OK: Pedido mudou de ABERTO para PAGO."
+                    );
+
+                } else {
+
+                    System.out.println(
+                            "ERRO: Pedido não mudou para PAGO. Situação atual: "
+                                    + pedidoAberto.getSituacao()
+                    );
+                }
+
+            } catch (PagamentoRecusadoException e) {
+
+                System.out.println("Pagamento recusado: " + e.getMessage());
+
+            } catch (ECommerceException e) {
+
+                System.out.println("ERRO: Pagamento foi recusado.");
+                System.out.println("Mensagem: " + e.getMessage());
+
+            } catch (IllegalArgumentException e) {
+
+                System.out.println("ERRO: Dados inválidos no pagamento.");
+                System.out.println("Mensagem: " + e.getMessage());
             }
 
-        } catch (PagamentoRecusadoException e) {
+        } else {
 
-            System.out.println("Pagamento recusado: " + e.getMessage());
-
-        } catch (ECommerceException e) {
-
-            System.out.println("ERRO: Pagamento foi recusado.");
-            System.out.println("Mensagem: " + e.getMessage());
-
-        } catch (IllegalArgumentException e) {
-
-            System.out.println("ERRO: Dados inválidos no pagamento.");
-            System.out.println("Mensagem: " + e.getMessage());
+            System.out.println("Pagamento não executado porque o pedido não foi preparado corretamente.");
         }
 
 
@@ -467,25 +481,32 @@ public class App {
 
         System.out.println("\n--- Teste: PAGO → CANCELADO ---");
 
-        try {
+        if (pedidoFoiPago) {
 
-            pedidoAberto.cancelarPedido();
+            try {
 
-            System.out.println(
-                    "ERRO: Pedido pago pôde ser cancelado."
-            );
+                pedidoAberto.cancelarPedido();
 
-        } catch (ECommerceException e) {
+                System.out.println(
+                        "ERRO: Pedido pago pôde ser cancelado."
+                );
 
-            System.out.println(
-                    "OK: Pedido pago não pôde ser cancelado."
-            );
+            } catch (ECommerceException e) {
 
-            System.out.println("Mensagem: " + e.getMessage());
+                System.out.println(
+                        "OK: Pedido pago não pôde ser cancelado."
+                );
 
-        } catch (IllegalArgumentException e) {
+                System.out.println("Mensagem: " + e.getMessage());
 
-            System.out.println("Dados inválidos ao cancelar pedido: " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+
+                System.out.println("Dados inválidos ao cancelar pedido: " + e.getMessage());
+            }
+
+        } else {
+
+            System.out.println("Teste ignorado porque o pedido não chegou ao estado PAGO.");
         }
 
 
@@ -501,10 +522,13 @@ public class App {
                 20261007
         );
 
+        boolean pedidoCanceladoPreparado = false;
+
         try {
 
             pedidoCancelado.addItem(produto, 1);
             pedidoCancelado.cancelarPedido();
+            pedidoCanceladoPreparado = true;
 
         } catch (ECommerceException e) {
 
@@ -515,41 +539,48 @@ public class App {
             System.out.println("Dados inválidos no pedido: " + e.getMessage());
         }
 
-        System.out.println(
-                "Situação antes da tentativa de pagamento: "
-                        + pedidoCancelado.getSituacao()
-        );
-
-        FormaPagamento pixCancelado = new Pix(
-                pedidoCancelado.calcularValorTotal(),
-                LocalDate.now(),
-                "16999999999",
-                TipoChavePix.TELEFONE
-        );
-
-        try {
-
-            pedidoCancelado.realizarPagamento(pixCancelado, autorizadorPagamento);
+        if (pedidoCanceladoPreparado) {
 
             System.out.println(
-                    "ERRO: Pedido cancelado pôde ser pago."
+                    "Situação antes da tentativa de pagamento: "
+                            + pedidoCancelado.getSituacao()
             );
 
-        } catch (PagamentoRecusadoException e) {
-
-            System.out.println("Pagamento recusado: " + e.getMessage());
-
-        } catch (ECommerceException e) {
-
-            System.out.println(
-                    "OK: Pedido cancelado não pôde ser pago."
+            FormaPagamento pixCancelado = new Pix(
+                    pedidoCancelado.calcularValorTotal(),
+                    LocalDate.now(),
+                    "16999999999",
+                    TipoChavePix.TELEFONE
             );
 
-            System.out.println("Mensagem: " + e.getMessage());
+            try {
 
-        } catch (IllegalArgumentException e) {
+                pedidoCancelado.realizarPagamento(pixCancelado, autorizadorPagamento);
 
-            System.out.println("Dados inválidos ao tentar pagar pedido cancelado: " + e.getMessage());
+                System.out.println(
+                        "ERRO: Pedido cancelado pôde ser pago."
+                );
+
+            } catch (PagamentoRecusadoException e) {
+
+                System.out.println("Pagamento recusado: " + e.getMessage());
+
+            } catch (ECommerceException e) {
+
+                System.out.println(
+                        "OK: Pedido cancelado não pôde ser pago."
+                );
+
+                System.out.println("Mensagem: " + e.getMessage());
+
+            } catch (IllegalArgumentException e) {
+
+                System.out.println("Dados inválidos ao tentar pagar pedido cancelado: " + e.getMessage());
+            }
+
+        } else {
+
+            System.out.println("Tentativa de pagamento ignorada porque o pedido não foi preparado e cancelado corretamente.");
         }
 
 
@@ -595,75 +626,89 @@ public class App {
             System.out.println("Quantidade ou produto inválido: " + e.getMessage());
         }
 
-        // TESTE 2 - ADICIONAR ITEM APÓS PAGAMENTO
-        System.out.println("\n--- Teste: Adicionar item após pagamento ---");
+        if (pedidoFoiPago) {
 
-        try {
+            // TESTE 2 - ADICIONAR ITEM APÓS PAGAMENTO
+            System.out.println("\n--- Teste: Adicionar item após pagamento ---");
 
-            pedidoAberto.addItem(produto, 1);
-            System.out.println("ERRO: Foi possível adicionar item a um pedido pago.");
+            try {
 
-        } catch (PedidoInvalidoException e) {
+                pedidoAberto.addItem(produto, 1);
+                System.out.println("ERRO: Foi possível adicionar item a um pedido pago.");
 
-            System.out.println("OK: Alteração de pedido pago foi bloqueada.");
-            System.out.println("Mensagem: " + e.getMessage());
+            } catch (PedidoInvalidoException e) {
 
-        } catch (ECommerceException e) {
+                System.out.println("OK: Alteração de pedido pago foi bloqueada.");
+                System.out.println("Mensagem: " + e.getMessage());
 
-            System.out.println("Exceção de domínio inesperada: " + e.getMessage());
-        }
+            } catch (ECommerceException e) {
 
-        // TESTE 3 - REMOVER ITEM APÓS PAGAMENTO
-        System.out.println("\n--- Teste: Remover item após pagamento ---");
+                System.out.println("Exceção de domínio inesperada: " + e.getMessage());
+            }
 
-        try {
+            // TESTE 3 - REMOVER ITEM APÓS PAGAMENTO
+            System.out.println("\n--- Teste: Remover item após pagamento ---");
 
-            ItemPedido itemPago = pedidoAberto.getItens().get(0);
-            pedidoAberto.removeItem(itemPago);
-            System.out.println("ERRO: Foi possível remover item de um pedido pago.");
+            try {
 
-        } catch (PedidoInvalidoException e) {
+                ItemPedido itemPago = pedidoAberto.getItens().get(0);
+                pedidoAberto.removeItem(itemPago);
+                System.out.println("ERRO: Foi possível remover item de um pedido pago.");
 
-            System.out.println("OK: Remoção de item em pedido pago foi bloqueada.");
-            System.out.println("Mensagem: " + e.getMessage());
+            } catch (PedidoInvalidoException e) {
 
-        } catch (IndexOutOfBoundsException e) {
+                System.out.println("OK: Remoção de item em pedido pago foi bloqueada.");
+                System.out.println("Mensagem: " + e.getMessage());
 
-            System.out.println("Não foi possível localizar o item para o teste: " + e.getMessage());
-        }
+            } catch (IndexOutOfBoundsException e) {
 
-        // TESTE 4 - PAGAMENTO DUPLICADO
-        System.out.println("\n--- Teste: Pagamento duplicado ---");
+                System.out.println("Não foi possível localizar o item para o teste: " + e.getMessage());
+            }
 
-        try {
+            // TESTE 4 - PAGAMENTO DUPLICADO
+            System.out.println("\n--- Teste: Pagamento duplicado ---");
 
-            pedidoAberto.realizarPagamento(pixPagamento, autorizadorPagamento);
-            System.out.println("ERRO: O pedido recebeu um segundo pagamento.");
+            try {
 
-        } catch (PedidoInvalidoException e) {
+                pedidoAberto.realizarPagamento(pixPagamento, autorizadorPagamento);
+                System.out.println("ERRO: O pedido recebeu um segundo pagamento.");
 
-            System.out.println("OK: Segundo pagamento foi bloqueado.");
-            System.out.println("Mensagem: " + e.getMessage());
-        } catch (PagamentoRecusadoException e) {
-            System.out.println("Pagamento recusado: " + e.getMessage());
+            } catch (PedidoInvalidoException e) {
+
+                System.out.println("OK: Segundo pagamento foi bloqueado.");
+                System.out.println("Mensagem: " + e.getMessage());
+            } catch (PagamentoRecusadoException e) {
+                System.out.println("Pagamento recusado: " + e.getMessage());
+            }
+
+        } else {
+
+            System.out.println("Testes de pedido pago ignorados porque o pedido não chegou ao estado PAGO.");
         }
 
         // TESTE 5 - ADICIONAR ITEM A PEDIDO CANCELADO
         System.out.println("\n--- Teste: Adicionar item a pedido cancelado ---");
 
-        try {
+        if (pedidoCanceladoPreparado) {
 
-            pedidoCancelado.addItem(produto, 1);
-            System.out.println("ERRO: Foi possível adicionar item a um pedido cancelado.");
+            try {
 
-        } catch (PedidoInvalidoException e) {
+                pedidoCancelado.addItem(produto, 1);
+                System.out.println("ERRO: Foi possível adicionar item a um pedido cancelado.");
 
-            System.out.println("OK: Alteração de pedido cancelado foi bloqueada.");
-            System.out.println("Mensagem: " + e.getMessage());
+            } catch (PedidoInvalidoException e) {
 
-        } catch (ECommerceException e) {
+                System.out.println("OK: Alteração de pedido cancelado foi bloqueada.");
+                System.out.println("Mensagem: " + e.getMessage());
 
-            System.out.println("Outra exceção de domínio: " + e.getMessage());
+            } catch (ECommerceException e) {
+
+                System.out.println("Outra exceção de domínio: " + e.getMessage());
+            }
+
+        } else {
+
+            System.out.println("Teste ignorado porque o pedido não foi cancelado corretamente.");
         }
 
 
