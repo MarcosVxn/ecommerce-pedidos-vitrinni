@@ -4,6 +4,8 @@ package com.ecommerce.pedidos.vitrinni.model.Order;
 import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
 import com.ecommerce.pedidos.vitrinni.model.Payment.FormaPagamento;
 import com.ecommerce.pedidos.vitrinni.model.Product.Produto;
+import com.ecommerce.pedidos.vitrinni.exceptions.EstoqueInsuficienteException;
+import com.ecommerce.pedidos.vitrinni.exceptions.PedidoInvalidoException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class Pedido {
         }
     }
 
-    public void setNumero(int numero) {
+    private void setNumero(int numero) {
         validarNumero(numero);
         this.numero = numero;
     }
@@ -39,13 +41,10 @@ public class Pedido {
         return numero;
     }
 
-    private void validarMudancaSituacao(SituacaoPedido novaSituacao){
-        if (situacao == SituacaoPedido.PAGO && novaSituacao != SituacaoPedido.PAGO){
-            throw new IllegalArgumentException("Pedido pago não pode ter sua situação alterada");
-        }
-        if (situacao == SituacaoPedido.CANCELADO && novaSituacao != SituacaoPedido.CANCELADO){
-            throw new IllegalArgumentException(
-                    "Pedido cancelado não pode ter sua situação alterada"
+    private void validarPedidoAberto() throws PedidoInvalidoException {
+        if (situacao != SituacaoPedido.ABERTO) {
+            throw new PedidoInvalidoException(
+                    "Operação não permitida. O pedido está " + situacao
             );
         }
     }
@@ -56,7 +55,7 @@ public class Pedido {
         }
     }
 
-    public void setCliente(Cliente cliente) {
+    private void setCliente(Cliente cliente) {
         validarCliente(cliente);
         this.cliente = cliente;
     }
@@ -65,7 +64,7 @@ public class Pedido {
         return cliente;
     }
 
-    public void setData(int data) {
+    private void setData(int data) {
         this.data = data;
     }
 
@@ -79,10 +78,30 @@ public class Pedido {
         }
     }
 
-    private void setSituacao(SituacaoPedido situacao) {
+    private void setSituacao(SituacaoPedido situacao) throws PedidoInvalidoException {
         validarSituacao(situacao);
         validarMudancaSituacao(situacao);
         this.situacao = situacao;
+    }
+
+    private void validarMudancaSituacao(SituacaoPedido novaSituacao)
+            throws PedidoInvalidoException {
+
+        if (situacao == SituacaoPedido.PAGO
+                && novaSituacao != SituacaoPedido.PAGO) {
+
+            throw new PedidoInvalidoException(
+                    "Não é possível alterar a situação de um pedido pago."
+            );
+        }
+
+        if (situacao == SituacaoPedido.CANCELADO
+                && novaSituacao != SituacaoPedido.CANCELADO) {
+
+            throw new PedidoInvalidoException(
+                    "Não é possível alterar a situação de um pedido cancelado."
+            );
+        }
     }
 
     public SituacaoPedido getSituacao() {
@@ -104,10 +123,11 @@ public class Pedido {
         this.formaPagamento = formaPagamento;
     }
 
-
-    private void validarItens(){
-        if (itens.isEmpty()){
-            throw new IllegalArgumentException("O pedido deve possuir pelo menos um item");
+    private void validarItens() throws PedidoInvalidoException {
+        if (itens.isEmpty()) {
+            throw new PedidoInvalidoException(
+                    "Não é possível realizar o pagamento. O pedido não possui itens."
+            );
         }
     }
 
@@ -115,16 +135,26 @@ public class Pedido {
         return formaPagamento;
     }
 
-    public void cancelarPedido(){
+    public void cancelarPedido() throws PedidoInvalidoException {
+
+        validarPedidoAberto();
+
+        for (ItemPedido item : itens) {
+            item.getProduto().reporEstoque(item.getQuantidade());
+        }
+
         setSituacao(SituacaoPedido.CANCELADO);
     }
 
-    public void realizarPagamento(FormaPagamento formaPagamento){
+    public void realizarPagamento(FormaPagamento formaPagamento)
+            throws PedidoInvalidoException {
+
+        validarPedidoAberto();
         validarFormaPagamento(formaPagamento);
         validarItens();
-        validarMudancaSituacao(SituacaoPedido.PAGO);
 
         formaPagamento.processar();
+
         setFormaPagamento(formaPagamento);
         setSituacao(SituacaoPedido.PAGO);
     }
@@ -138,12 +168,38 @@ public class Pedido {
         return valorTotal;
     }
 
-    public void removeItem(ItemPedido item){
-        itens.remove(item);
+    public void removeItem(ItemPedido item)
+            throws PedidoInvalidoException {
+
+        validarPedidoAberto();
+
+        if (item == null) {
+            throw new IllegalArgumentException("Item é obrigatório.");
+        }
+
+        if (itens.remove(item)) {
+            item.getProduto().reporEstoque(item.getQuantidade());
+        }
     }
 
-    public void addItem(Produto produto, int quantidade){
-        itens.add(new ItemPedido(produto, quantidade, produto.getPreco()));
+    public void addItem(Produto produto, int quantidade)
+            throws PedidoInvalidoException, EstoqueInsuficienteException {
+
+        validarPedidoAberto();
+
+        if (produto == null) {
+            throw new IllegalArgumentException("Produto é obrigatório.");
+        }
+
+        ItemPedido novoItem = new ItemPedido(
+                produto,
+                quantidade,
+                produto.getPreco()
+        );
+
+        produto.baixarEstoque(quantidade);
+
+        itens.add(novoItem);
     }
 
     @Override

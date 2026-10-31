@@ -1,11 +1,19 @@
 package com.ecommerce.pedidos.vitrinni.model.Payment;
 
+import com.ecommerce.pedidos.vitrinni.exceptions.ClienteNaoEncontradoException;
+import com.ecommerce.pedidos.vitrinni.exceptions.ECommerceException;
+import com.ecommerce.pedidos.vitrinni.exceptions.EstoqueInsuficienteException;
+import com.ecommerce.pedidos.vitrinni.exceptions.PedidoInvalidoException;
 import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
 import com.ecommerce.pedidos.vitrinni.model.Client.Endereco;
 import com.ecommerce.pedidos.vitrinni.model.Order.ItemPedido;
 import com.ecommerce.pedidos.vitrinni.model.Order.Pedido;
 import com.ecommerce.pedidos.vitrinni.model.Product.Produto;
 import com.ecommerce.pedidos.vitrinni.model.Order.SituacaoPedido;
+import com.ecommerce.pedidos.vitrinni.exceptions.ProdutoNaoEncontrado;
+import com.ecommerce.pedidos.vitrinni.service.ProductCatalog;
+import com.ecommerce.pedidos.vitrinni.service.CustomerService;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -57,6 +65,70 @@ public class App {
         System.out.println("Endereço criado: " + endereco);
         System.out.println("Cliente criado: " + cliente);
         System.out.println("Pedido criado: " + pedido);
+
+
+        // =====================================================
+        // TESTES DA ISSUE #55 - CADASTRO E BUSCA DE PRODUTOS
+        // =====================================================
+
+        System.out.println("\n--- Testes do catálogo de produtos ---");
+
+        ProductCatalog catalog = new ProductCatalog();
+
+        // TESTE 1 - CADASTRO DE PRODUTO
+        try {
+
+            catalog.registerProduct(produto);
+            System.out.println("OK: Produto cadastrado no catálogo.");
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("ERRO no cadastro: " + e.getMessage());
+        }
+
+        // TESTE 2 - PRODUTO DUPLICADO
+        try {
+
+            catalog.registerProduct(produto);
+            System.out.println("ERRO: Produto duplicado foi aceito.");
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("OK: Produto duplicado foi recusado.");
+            System.out.println("Mensagem: " + e.getMessage());
+        }
+
+        // TESTE 3 - BUSCA DE PRODUTO EXISTENTE
+        try {
+
+            Produto produtoEncontrado = catalog.findByCodigo("001");
+            System.out.println("OK: Produto encontrado: " + produtoEncontrado);
+
+        } catch (ProdutoNaoEncontrado e) {
+
+            System.out.println("ERRO: Produto existente não foi encontrado.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Código inválido: " + e.getMessage());
+        }
+
+        // TESTE 4 - BUSCA DE PRODUTO INEXISTENTE
+        try {
+
+            catalog.findByCodigo("999");
+            System.out.println("ERRO: Produto inexistente foi encontrado.");
+
+        } catch (ProdutoNaoEncontrado e) {
+
+            System.out.println("OK: Busca inexistente tratada.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Código inválido: " + e.getMessage());
+        }
 
 
         // =====================================================
@@ -128,6 +200,31 @@ public class App {
         }
 
 
+
+
+        // =====================================================
+        // TESTE 3.1 - QUANTIDADE NEGATIVA
+        // =====================================================
+
+        System.out.println("\n--- Teste: Quantidade negativa ---");
+
+        try {
+
+            new ItemPedido(
+                    produto,
+                    -2,
+                    produto.getPreco()
+            );
+
+            System.out.println("ERRO: Quantidade negativa foi aceita.");
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("OK: Quantidade negativa recusada.");
+            System.out.println("Mensagem: " + e.getMessage());
+        }
+
+
         // =====================================================
         // TESTE 4 - PREÇO INVÁLIDO
         // =====================================================
@@ -170,10 +267,14 @@ public class App {
 
             System.out.println("ERRO: Pedido vazio foi pago.");
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println("OK: Pedido vazio recusado para pagamento.");
             System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Dados inválidos no pagamento: " + e.getMessage());
         }
 
 
@@ -183,10 +284,21 @@ public class App {
 
         System.out.println("\n--- Teste: Adicionar item válido ---");
 
-        pedido.addItem(produto, 2);
+        try {
 
-        System.out.println("Item adicionado com sucesso.");
-        System.out.println("Quantidade de itens: " + pedido.getItens().size());
+            pedido.addItem(produto, 2);
+
+            System.out.println("Item adicionado com sucesso.");
+            System.out.println("Quantidade de itens: " + pedido.getItens().size());
+
+        } catch (ECommerceException e) {
+
+            System.out.println("Não foi possível adicionar o item: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Dados inválidos para adicionar o item: " + e.getMessage());
+        }
 
 
         // =====================================================
@@ -226,9 +338,14 @@ public class App {
                             .getSimpleName()
             );
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println("ERRO: Pagamento válido foi recusado.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("ERRO: Dados inválidos no pagamento.");
             System.out.println("Mensagem: " + e.getMessage());
         }
 
@@ -282,7 +399,18 @@ public class App {
 
         System.out.println("\n--- Teste: ABERTO → PAGO ---");
 
-        pedidoAberto.addItem(produto, 1);
+        try {
+
+            pedidoAberto.addItem(produto, 1);
+
+        } catch (ECommerceException e) {
+
+            System.out.println("Não foi possível preparar o pedido para pagamento: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Dados inválidos no item: " + e.getMessage());
+        }
 
         FormaPagamento pixPagamento = new Pix(
                 pedidoAberto.calcularValorTotal(),
@@ -309,9 +437,14 @@ public class App {
                 );
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println("ERRO: Pagamento foi recusado.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("ERRO: Dados inválidos no pagamento.");
             System.out.println("Mensagem: " + e.getMessage());
         }
 
@@ -330,13 +463,17 @@ public class App {
                     "ERRO: Pedido pago pôde ser cancelado."
             );
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println(
                     "OK: Pedido pago não pôde ser cancelado."
             );
 
             System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Dados inválidos ao cancelar pedido: " + e.getMessage());
         }
 
 
@@ -352,8 +489,19 @@ public class App {
                 20261007
         );
 
-        pedidoCancelado.addItem(produto, 1);
-        pedidoCancelado.cancelarPedido();
+        try {
+
+            pedidoCancelado.addItem(produto, 1);
+            pedidoCancelado.cancelarPedido();
+
+        } catch (ECommerceException e) {
+
+            System.out.println("Não foi possível preparar/cancelar o pedido: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Dados inválidos no pedido: " + e.getMessage());
+        }
 
         System.out.println(
                 "Situação antes da tentativa de pagamento: "
@@ -375,13 +523,129 @@ public class App {
                     "ERRO: Pedido cancelado pôde ser pago."
             );
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println(
                     "OK: Pedido cancelado não pôde ser pago."
             );
 
             System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Dados inválidos ao tentar pagar pedido cancelado: " + e.getMessage());
+        }
+
+
+
+
+        // =====================================================
+        // TESTES DA ISSUE #56 - TRATAMENTO DE EXCEÇÕES NO PEDIDO
+        // =====================================================
+
+        System.out.println("\n========================================");
+        System.out.println("       TESTES DA ISSUE #56");
+        System.out.println("========================================");
+
+        // TESTE 1 - ESTOQUE INSUFICIENTE
+        System.out.println("\n--- Teste: Estoque insuficiente ---");
+
+        Produto produtoEstoqueLimitado = new Produto(
+                "EST-001",
+                "Mouse Gamer",
+                "Mouse para teste de estoque",
+                new BigDecimal("150.00"),
+                2
+        );
+
+        Pedido pedidoEstoque = new Pedido(7, cliente, 20261030);
+
+        try {
+
+            pedidoEstoque.addItem(produtoEstoqueLimitado, 3);
+            System.out.println("ERRO: Foi possível adicionar mais unidades que o estoque disponível.");
+
+        } catch (EstoqueInsuficienteException e) {
+
+            System.out.println("OK: Estoque insuficiente foi tratado.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (PedidoInvalidoException e) {
+
+            System.out.println("Pedido inválido: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("Quantidade ou produto inválido: " + e.getMessage());
+        }
+
+        // TESTE 2 - ADICIONAR ITEM APÓS PAGAMENTO
+        System.out.println("\n--- Teste: Adicionar item após pagamento ---");
+
+        try {
+
+            pedidoAberto.addItem(produto, 1);
+            System.out.println("ERRO: Foi possível adicionar item a um pedido pago.");
+
+        } catch (PedidoInvalidoException e) {
+
+            System.out.println("OK: Alteração de pedido pago foi bloqueada.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (ECommerceException e) {
+
+            System.out.println("Exceção de domínio inesperada: " + e.getMessage());
+        }
+
+        // TESTE 3 - REMOVER ITEM APÓS PAGAMENTO
+        System.out.println("\n--- Teste: Remover item após pagamento ---");
+
+        try {
+
+            ItemPedido itemPago = pedidoAberto.getItens().get(0);
+            pedidoAberto.removeItem(itemPago);
+            System.out.println("ERRO: Foi possível remover item de um pedido pago.");
+
+        } catch (PedidoInvalidoException e) {
+
+            System.out.println("OK: Remoção de item em pedido pago foi bloqueada.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IndexOutOfBoundsException e) {
+
+            System.out.println("Não foi possível localizar o item para o teste: " + e.getMessage());
+        }
+
+        // TESTE 4 - PAGAMENTO DUPLICADO
+        System.out.println("\n--- Teste: Pagamento duplicado ---");
+
+        try {
+
+            pedidoAberto.realizarPagamento(pixPagamento);
+            System.out.println("ERRO: O pedido recebeu um segundo pagamento.");
+
+        } catch (PedidoInvalidoException e) {
+
+            System.out.println("OK: Segundo pagamento foi bloqueado.");
+            System.out.println("Mensagem: " + e.getMessage());
+        }
+
+        // TESTE 5 - ADICIONAR ITEM A PEDIDO CANCELADO
+        System.out.println("\n--- Teste: Adicionar item a pedido cancelado ---");
+
+        try {
+
+            pedidoCancelado.addItem(produto, 1);
+            System.out.println("ERRO: Foi possível adicionar item a um pedido cancelado.");
+
+        } catch (PedidoInvalidoException e) {
+
+            System.out.println("OK: Alteração de pedido cancelado foi bloqueada.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (ECommerceException e) {
+
+            System.out.println("Outra exceção de domínio: " + e.getMessage());
         }
 
 
@@ -432,9 +696,14 @@ public class App {
                 );
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println("ERRO: Pix válido foi recusado.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("ERRO: Dados inválidos no Pix.");
             System.out.println("Mensagem: " + e.getMessage());
         }
 
@@ -477,9 +746,14 @@ public class App {
                 );
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println("ERRO: Boleto válido foi recusado.");
+            System.out.println("Mensagem: " + e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println("ERRO: Dados inválidos no boleto.");
             System.out.println("Mensagem: " + e.getMessage());
         }
 
@@ -526,10 +800,20 @@ public class App {
                 );
             }
 
-        } catch (IllegalArgumentException e) {
+        } catch (ECommerceException e) {
 
             System.out.println(
                     "ERRO: Cartão válido foi recusado."
+            );
+
+            System.out.println(
+                    "Mensagem: " + e.getMessage()
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "ERRO: Dados inválidos no cartão."
             );
 
             System.out.println(
@@ -854,6 +1138,44 @@ public class App {
             System.out.println(
                     "Mensagem: " + e.getMessage()
             );
+        }
+
+        // TESTES DE CADASTRO DE CLIENTES
+
+        CustomerService customerService = new CustomerService();
+
+// Cadastro válido
+        try {
+            customerService.registerCustomer(cliente);
+            System.out.println("Cliente cadastrado!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+// Cliente duplicado
+        try {
+            customerService.registerCustomer(cliente);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Duplicidade rejeitada: " + e.getMessage());
+        }
+
+// Busca existente
+        try {
+            Cliente found = customerService.findCustomerByDocument("12345678900");
+            System.out.println("Cliente encontrado: " + found);
+
+        } catch (ClienteNaoEncontradoException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+// Busca inexistente
+        try {
+            customerService.findCustomerByDocument("99999999999");
+
+        } catch (ClienteNaoEncontradoException | IllegalArgumentException e) {
+            System.out.println("Busca tratada: " + e.getMessage());
         }
 
 

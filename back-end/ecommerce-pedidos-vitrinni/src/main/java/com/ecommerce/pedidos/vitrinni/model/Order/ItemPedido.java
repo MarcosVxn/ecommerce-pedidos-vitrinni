@@ -37,11 +37,13 @@ public class ItemPedido {
 
     private void validarQuantidade(int quantidade){
         if (quantidade <= 0) {
-            throw new IllegalArgumentException("Quantidade Invalida");
+            throw new IllegalArgumentException(
+                    "Quantidade inválida. Informe um valor maior que zero."
+            );
         }
     }
 
-    public void setQuantidade(int quantidade) {
+    private void setQuantidade(int quantidade) {
         validarQuantidade(quantidade);
         this.quantidade = quantidade;
     }
