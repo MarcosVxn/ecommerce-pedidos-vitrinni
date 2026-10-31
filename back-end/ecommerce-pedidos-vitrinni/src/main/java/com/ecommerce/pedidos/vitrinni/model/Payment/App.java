@@ -1,16 +1,12 @@
 package com.ecommerce.pedidos.vitrinni.model.Payment;
 
-import com.ecommerce.pedidos.vitrinni.exceptions.ClienteNaoEncontradoException;
-import com.ecommerce.pedidos.vitrinni.exceptions.ECommerceException;
-import com.ecommerce.pedidos.vitrinni.exceptions.EstoqueInsuficienteException;
-import com.ecommerce.pedidos.vitrinni.exceptions.PedidoInvalidoException;
+import com.ecommerce.pedidos.vitrinni.exceptions.*;
 import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
 import com.ecommerce.pedidos.vitrinni.model.Client.Endereco;
 import com.ecommerce.pedidos.vitrinni.model.Order.ItemPedido;
 import com.ecommerce.pedidos.vitrinni.model.Order.Pedido;
 import com.ecommerce.pedidos.vitrinni.model.Product.Produto;
 import com.ecommerce.pedidos.vitrinni.model.Order.SituacaoPedido;
-import com.ecommerce.pedidos.vitrinni.exceptions.ProdutoNaoEncontrado;
 import com.ecommerce.pedidos.vitrinni.service.ProductCatalog;
 import com.ecommerce.pedidos.vitrinni.service.CustomerService;
 
@@ -60,6 +56,10 @@ public class App {
                 cliente,
                 20261007
         );
+
+        // Autorizador de demonstração: aprova os pagamentos neste exemplo.
+        // Uma integração real substituirá esta implementação.
+        AutorizadorPagamento autorizadorPagamento = formaPagamento -> true;
 
         System.out.println("Produto criado: " + produto);
         System.out.println("Endereço criado: " + endereco);
@@ -263,9 +263,13 @@ public class App {
 
         try {
 
-            pedido.realizarPagamento(pix);
+            pedido.realizarPagamento(pix, autorizadorPagamento);
 
             System.out.println("ERRO: Pedido vazio foi pago.");
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 
@@ -328,7 +332,7 @@ public class App {
 
         try {
 
-            pedido.realizarPagamento(pixValido);
+            pedido.realizarPagamento(pixValido, autorizadorPagamento);
 
             System.out.println("OK: Pagamento processado.");
             System.out.println(
@@ -337,6 +341,10 @@ public class App {
                             .getClass()
                             .getSimpleName()
             );
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 
@@ -421,7 +429,7 @@ public class App {
 
         try {
 
-            pedidoAberto.realizarPagamento(pixPagamento);
+            pedidoAberto.realizarPagamento(pixPagamento, autorizadorPagamento);
 
             if (pedidoAberto.getSituacao() == SituacaoPedido.PAGO) {
 
@@ -436,6 +444,10 @@ public class App {
                                 + pedidoAberto.getSituacao()
                 );
             }
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 
@@ -517,11 +529,15 @@ public class App {
 
         try {
 
-            pedidoCancelado.realizarPagamento(pixCancelado);
+            pedidoCancelado.realizarPagamento(pixCancelado, autorizadorPagamento);
 
             System.out.println(
                     "ERRO: Pedido cancelado pôde ser pago."
             );
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 
@@ -621,13 +637,15 @@ public class App {
 
         try {
 
-            pedidoAberto.realizarPagamento(pixPagamento);
+            pedidoAberto.realizarPagamento(pixPagamento, autorizadorPagamento);
             System.out.println("ERRO: O pedido recebeu um segundo pagamento.");
 
         } catch (PedidoInvalidoException e) {
 
             System.out.println("OK: Segundo pagamento foi bloqueado.");
             System.out.println("Mensagem: " + e.getMessage());
+        } catch (PagamentoRecusadoException e) {
+            System.out.println("Pagamento recusado: " + e.getMessage());
         }
 
         // TESTE 5 - ADICIONAR ITEM A PEDIDO CANCELADO
@@ -681,7 +699,7 @@ public class App {
                     TipoChavePix.TELEFONE
             );
 
-            pedidoPix.realizarPagamento(pixTeste);
+            pedidoPix.realizarPagamento(pixTeste, autorizadorPagamento);
 
             if (pedidoPix.getFormaPagamento() instanceof Pix) {
 
@@ -695,6 +713,10 @@ public class App {
                         "ERRO: Pix não foi integrado ao Pedido."
                 );
             }
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 
@@ -731,7 +753,7 @@ public class App {
                     LocalDate.now().plusDays(10)
             );
 
-            pedidoBoleto.realizarPagamento(boletoTeste);
+            pedidoBoleto.realizarPagamento(boletoTeste, autorizadorPagamento);
 
             if (pedidoBoleto.getFormaPagamento() instanceof Boleto) {
 
@@ -745,6 +767,10 @@ public class App {
                         "ERRO: Boleto não foi integrado ao Pedido."
                 );
             }
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 
@@ -784,7 +810,7 @@ public class App {
                     3
             );
 
-            pedidoCartao.realizarPagamento(cartaoTeste);
+            pedidoCartao.realizarPagamento(cartaoTeste, autorizadorPagamento);
 
             if (pedidoCartao.getFormaPagamento()
                     instanceof CartaoCredito) {
@@ -799,6 +825,10 @@ public class App {
                         "ERRO: Cartão não foi integrado ao Pedido."
                 );
             }
+
+        } catch (PagamentoRecusadoException e) {
+
+            System.out.println("Pagamento recusado: " + e.getMessage());
 
         } catch (ECommerceException e) {
 

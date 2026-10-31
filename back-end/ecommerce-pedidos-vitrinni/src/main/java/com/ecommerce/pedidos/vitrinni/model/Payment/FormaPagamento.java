@@ -1,5 +1,7 @@
 package com.ecommerce.pedidos.vitrinni.model.Payment;
 
+import com.ecommerce.pedidos.vitrinni.exceptions.PagamentoRecusadoException;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -44,7 +46,25 @@ public sealed abstract class FormaPagamento permits CartaoCredito, Boleto, Pix {
         return dataDoPagamento;
     }
 
-    public abstract void processar();
+    protected final void validarAutorizacao(
+            AutorizadorPagamento autorizador
+    ) throws PagamentoRecusadoException {
+
+        if (autorizador == null) {
+            throw new IllegalArgumentException(
+                    "Autorizador de pagamento é obrigatório."
+            );
+        }
+
+        if (!autorizador.autorizar(this)) {
+            throw new PagamentoRecusadoException(
+                    "Pagamento recusado pelo autorizador."
+            );
+        }
+    }
+
+    public abstract void processar(AutorizadorPagamento autorizador)
+            throws PagamentoRecusadoException;
 
     public String getResumo() {
         return String.format(

@@ -1,7 +1,9 @@
 package com.ecommerce.pedidos.vitrinni.model.Order;
 
 
+import com.ecommerce.pedidos.vitrinni.exceptions.PagamentoRecusadoException;
 import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
+import com.ecommerce.pedidos.vitrinni.model.Payment.AutorizadorPagamento;
 import com.ecommerce.pedidos.vitrinni.model.Payment.FormaPagamento;
 import com.ecommerce.pedidos.vitrinni.model.Product.Produto;
 import com.ecommerce.pedidos.vitrinni.exceptions.EstoqueInsuficienteException;
@@ -146,16 +148,23 @@ public class Pedido {
         setSituacao(SituacaoPedido.CANCELADO);
     }
 
-    public void realizarPagamento(FormaPagamento formaPagamento)
-            throws PedidoInvalidoException {
+    public void realizarPagamento(
+            FormaPagamento formaPagamento,
+            AutorizadorPagamento autorizador
+    ) throws PedidoInvalidoException, PagamentoRecusadoException {
 
         validarPedidoAberto();
+
         validarFormaPagamento(formaPagamento);
+
         validarItens();
 
-        formaPagamento.processar();
+        validarValorPagamento(formaPagamento);
+
+        formaPagamento.processar(autorizador);
 
         setFormaPagamento(formaPagamento);
+
         setSituacao(SituacaoPedido.PAGO);
     }
 
@@ -200,6 +209,20 @@ public class Pedido {
         produto.baixarEstoque(quantidade);
 
         itens.add(novoItem);
+    }
+
+    private void validarValorPagamento(FormaPagamento formaPagamento) {
+
+        BigDecimal valorPedido = calcularValorTotal();
+
+        BigDecimal valorInformado = formaPagamento.getValorPagamento();
+
+        if (valorInformado.compareTo(valorPedido) != 0) {
+            throw new IllegalArgumentException(
+                    "Valor do pagamento divergente. Esperado: R$ "
+                            + valorPedido + ", informado: R$ " + valorInformado
+            );
+        }
     }
 
     @Override

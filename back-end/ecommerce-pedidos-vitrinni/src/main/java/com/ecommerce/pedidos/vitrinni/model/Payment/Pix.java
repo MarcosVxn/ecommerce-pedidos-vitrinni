@@ -1,5 +1,7 @@
 package com.ecommerce.pedidos.vitrinni.model.Payment;
 
+import com.ecommerce.pedidos.vitrinni.exceptions.PagamentoRecusadoException;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -70,10 +72,17 @@ public non-sealed class Pix extends FormaPagamento {
         this.tipoChavePix = tipoChavePix;
     }
 
+
+
     @Override
-    public void processar() {
+    public void processar(AutorizadorPagamento autorizador)
+            throws PagamentoRecusadoException {
+
+        validarAutorizacao(autorizador);
+
         System.out.println("Pagamento com Pix processado.");
     }
+
     @Override
     public String getResumo() {
         return super.getResumo()
