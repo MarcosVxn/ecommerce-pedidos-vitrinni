@@ -18,6 +18,8 @@ public non-sealed class Cliente extends Pessoa {
         setEndereco(endereco);
     }
 
+
+
     /**
      * Define o e-mail do cliente.
      * O e-mail não pode ser nulo ou vazio e deve conter @.
@@ -32,14 +34,13 @@ public non-sealed class Cliente extends Pessoa {
     }
 
     private void validarEmail(String email) {
-        if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("E-mail inválido!");
-        }
+        if (email == null ||
+                !email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
 
-        if (!email.contains("@")) {
-            throw new IllegalArgumentException("E-mail deve conter @");
+            throw new IllegalArgumentException(
+                    "Formato de e-mail inválido."
+            );
         }
-
     }
 
     private void validarTelefone(String telefone) {
@@ -102,6 +103,18 @@ public non-sealed class Cliente extends Pessoa {
     @Override
     public String getIdentificacao() {
         return getDocumento();
+    }
+
+    @Override
+    protected void validarDocumento(String documento) {
+
+        super.validarDocumento(documento);
+
+        if (!documento.trim().matches("\\d{11}")) {
+            throw new IllegalArgumentException(
+                    "CPF deve conter 11 números."
+            );
+        }
     }
 
     @Override

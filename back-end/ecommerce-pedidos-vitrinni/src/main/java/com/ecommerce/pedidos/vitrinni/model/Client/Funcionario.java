@@ -1,6 +1,6 @@
-package com.ecommerce.pedidos.vitrinni.model.Employee;
+package com.ecommerce.pedidos.vitrinni.model.Client;
 
-import com.ecommerce.pedidos.vitrinni.model.Client.Pessoa;
+import com.ecommerce.pedidos.vitrinni.model.Employee.Cargo;
 
 public non-sealed class Funcionario extends Pessoa {
 

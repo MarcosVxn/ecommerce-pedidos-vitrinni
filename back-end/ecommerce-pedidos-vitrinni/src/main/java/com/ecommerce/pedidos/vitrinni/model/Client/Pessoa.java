@@ -1,7 +1,5 @@
 package com.ecommerce.pedidos.vitrinni.model.Client;
 
-import com.ecommerce.pedidos.vitrinni.model.Employee.Funcionario;
-
 public sealed abstract class Pessoa permits Cliente, Funcionario {
 
     private String nome;
@@ -34,15 +32,20 @@ public sealed abstract class Pessoa permits Cliente, Funcionario {
         this.documento = documento.trim();
     }
 
-    private void validarDocumento(String documento) {
+    protected void validarDocumento(String documento) {
         if (documento == null || documento.isBlank()) {
             throw new IllegalArgumentException("Documento inválido!");
         }
 
-        if (!documento.matches("\\d+")) {
+        String normalizedDocument = documento.trim();
+
+        if (!normalizedDocument.matches("\\d+")) {
             throw new IllegalArgumentException(
-                    "Documento deve conter apenas números!");
+                    "Documento deve conter apenas números!"
+            );
         }
+
+        this.documento = normalizedDocument;
     }
 
     private void validarNome(String nome) {
