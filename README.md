@@ -23,7 +23,6 @@ DIA 02 — 14/08/26
 | *(Marcos Vinicius)* | Responsável do dia |
 | *(Mikael Levi)* | |
 
-DIA 02 — 14/08/26
 
 Introdução ao fluxo de trabalho com branches no Git. Criação e gerenciamento de branches para desenvolvimento. Aprendizado e aplicação do fluxo de Pull Requests. Criação do primeiro Pull Request e revisão das alterações junto ao professor.
 
@@ -36,20 +35,94 @@ DIA 03 — 21/08/26
 | *(Marcos Vinicius)* | Responsável do dia |
 | *(Mikael Levi)* | |
 
-DIA 03 — 21/08/26
 
 Revisão de conceitos básicos da linguagem Java, incluindo bibliotecas, métodos e o uso de `.equals()`. Introdução à criação e organização de classes no projeto. Desenvolvimento da classe Pedido em Java. Implementação dos métodos relacionados à classe Pedido.
 
 ---------------------------------//----------------------------------
 
-DIA 04 — /08/26
+DIA 04 — 28/08/26
 
 | Nome | Papel na Aula 04 |
 |---|---|
 | *(Marcos Vinicius)* | |
-| *(Mikael Levi)* | |
+| *(Mikael Levi)* | Responsável do dia |
 
-## Descrição do desafio
+Criação das classes Produto, Cliente, ItemPedido e Pedido, aplicando conceitos de POO, encapsulamento, construtores e métodos para representar o sistema de pedidos.
+
+---------------------------------//----------------------------------
+
+DIA 05 — 04/09/26
+
+| Nome | Papel na Aula 05 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Criação das classes Cliente e Pessoa, aplicando conceitos de encapsulamento e herança.
+
+
+---------------------------------//----------------------------------
+
+
+DIA 06 — 11/09/26
+
+| Nome | Papel na Aula 06 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Hierarquia de pagamentos abstrata (FormaPagamento), filhas concretas (CartaoCredito, Boleto, Pix), complemento de Pessoa (Funcionario), polimorfismo, diagrama draw.io e justificativas de recusa de herança.
+
+---------------------------------//----------------------------------
+
+DIA 07 — 18/09/26
+
+| Nome | Papel na Aula 07 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Implementação dos relacionamentos entre as classes do sistema, utilizando associação, agregação e composição, além das multiplicidades e validações necessárias para garantir o funcionamento correto dos pedidos.
+
+
+---------------------------------//----------------------------------
+
+DIA 08 — 25/09/26
+
+| Nome | Papel na Aula 08 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+
+Desenvolvimento do módulo de pagamento polimórfico, com criação da interface ProcessadorPagamento e implementação dos métodos de processamento, comprovante e descrição nas classes Pix, Boleto e CartaoCredito. Integração das formas de pagamento com a classe Pedido, aplicação de sobrecarga de métodos e utilização do polimorfismo para permitir a inclusão de novas formas de pagamento sem alterar o código existente.
+
+---------------------------------//----------------------------------
+
+DIA 09 — 02/10/26
+
+| Nome | Papel na Aula 09 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+
+Implementação do tratamento de exceções no sistema, com criação de exceções personalizadas para situações como estoque insuficiente e pagamento recusado. Aplicação de validações nos cadastros, pedidos e pagamentos, definição de critérios para exceções checked e unchecked e tratamento de erros nas camadas adequadas, garantindo mensagens claras para o usuário e maior confiabilidade do sistema.
+
+---------------------------------//----------------------------------
+
+DIA 10 — 06/10/26
+
+| Nome | Papel na Aula 10 |
+|---|---|
+| *(Marcos Vinicius)* | |
+| *(Mikael Levi)* | Responsável do dia |
+
+Implementação da suíte de testes unitários do sistema utilizando JUnit 5. Criação de testes para as classes de domínio, contemplando cenários de sucesso e falha, incluindo as exceções definidas na Aula 09. Utilização de @BeforeEach, @DisplayName e assertThrows, com o objetivo de garantir o funcionamento das regras de negócio e atingir a cobertura mínima de 70% das classes de domínio.
+
+---------------------------------//----------------------------------
+
+
 
 _(Uma equipe de desenvolvimento recebeu a demanda de
 construir um sistema de gestão de pedidos para um e-commerce, contemplando cadastro de produtos,
@@ -123,6 +196,14 @@ _(Preencher a partir das próximas aulas, conforme o projeto evoluir.)_
 -Manter uma comunicação clara e respeitosa entre os integrantes da equipe.
 -Criar branches e Pull Requests para organizar e revisar as alterações antes de integrá-las à main.
 -Cumprir as tarefas definidas para cada aula e comunicar a equipe sobre eventuais dificuldades ou atrasos.
+## Decisão da equipe
+
+A equipe decidiu utilizar o **GitHub Wiki** como uma forma de facilitar o entendimento e a consulta do projeto. A Wiki será utilizada para reunir informações importantes sobre o funcionamento do sistema, organização do código, decisões tomadas durante o desenvolvimento e outras informações que possam ajudar novos integrantes ou pessoas que queiram conhecer o projeto de maneira mais simples.
+
+Também optamos pela utilização do **GitHub Projects** para melhorar a organização das atividades da equipe. Através dele, será possível dividir as tarefas em Issues e Tasks, definir responsáveis e acompanhar o andamento do desenvolvimento de forma mais organizada.
+
+Essa organização será importante tanto para o desenvolvimento atual do **back-end** quanto para a futura implementação do **front-end**, permitindo que as duas partes do projeto possam evoluir de forma mais organizada e que cada integrante consiga visualizar suas responsabilidades e o progresso do projeto.
+
 
 ## Licença
 
