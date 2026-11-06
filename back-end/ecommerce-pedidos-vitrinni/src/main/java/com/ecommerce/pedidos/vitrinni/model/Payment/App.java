@@ -1,4 +1,4 @@
-package com.ecommerce.pedidos.vitrinni.model.Payment;
+ package com.ecommerce.pedidos.vitrinni.model.Payment;
 
 import com.ecommerce.pedidos.vitrinni.exceptions.*;
 import com.ecommerce.pedidos.vitrinni.model.Client.Cliente;
@@ -602,14 +602,14 @@ public class App {
                 "Mouse Gamer",
                 "Mouse para teste de estoque",
                 new BigDecimal("150.00"),
-                2
+                3
         );
 
         Pedido pedidoEstoque = new Pedido(7, cliente, 20261030);
 
         try {
 
-            pedidoEstoque.addItem(produtoEstoqueLimitado, 3);
+            pedidoEstoque.addItem(produtoEstoqueLimitado, 50);
             System.out.println("ERRO: Foi possível adicionar mais unidades que o estoque disponível.");
 
         } catch (EstoqueInsuficienteException e) {
@@ -625,6 +625,9 @@ public class App {
 
             System.out.println("Quantidade ou produto inválido: " + e.getMessage());
         }
+
+        // Verifica visualmente se o estoque permaneceu inalterado após a falha.
+        System.out.println("Produto após tentativa: " + produtoEstoqueLimitado);
 
         if (pedidoFoiPago) {
 
@@ -1291,3 +1294,4 @@ public class App {
         System.out.println("\n=== TESTES FINALIZADOS ===");
     }
 }
+
